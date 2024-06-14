@@ -2,26 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomeScreen(),
     );
   }
 }
 
 class HomeScreen extends StatelessWidget {
-  static const platform = const MethodChannel('overlay_channel');
+  static const platform = MethodChannel('overlay_channel');
+
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter macOS Overlay Example'),
+        title: const Text('Flutter macOS Overlay Example'),
       ),
       body: Center(
         child: Column(
@@ -31,13 +35,13 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 platform.invokeMethod('showOverlay');
               },
-              child: Text('Show Overlay'),
+              child: const Text('Show Overlay'),
             ),
             ElevatedButton(
               onPressed: () {
                 platform.invokeMethod('closeOverlay');
               },
-              child: Text('Close Overlay'),
+              child: const Text('Close Overlay'),
             ),
           ],
         ),
