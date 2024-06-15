@@ -29,13 +29,10 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSAppTransportSecurity</key>
-    <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-    </dict>
-    <key>NSUIElement</key>
-    <string>1</string>
-    <key>LSUIElement</key>
-    <string>1</string>
+	<string></string>
+	<key>NSUIElement</key>
+	<string>1</string>
+	<key>LSUIElement</key>
+	<string>1</string>
 </dict>
 </plist>

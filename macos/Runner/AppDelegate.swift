@@ -6,11 +6,12 @@ import Lottie
 @NSApplicationMain
 class AppDelegate: FlutterAppDelegate {
     var overlayWindow: NSWindow?
+    var formOverlayWindow: NSWindow?
 
     override func applicationDidFinishLaunching(_ aNotification: Notification) {
         let flutterViewController = mainFlutterWindow?.contentViewController as! FlutterViewController
         let channel = FlutterMethodChannel(name: "overlay_channel", binaryMessenger: flutterViewController.engine.binaryMessenger)
-        
+
         channel.setMethodCallHandler { (call, result) in
             if call.method == "showOverlay" {
                 self.showOverlay()
@@ -37,7 +38,7 @@ class AppDelegate: FlutterAppDelegate {
             overlayWindow?.level = .floating
             overlayWindow?.ignoresMouseEvents = false
             overlayWindow?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-            
+
             let contentView = NSHostingView(rootView: OverlayContentView(closeOverlay: closeOverlay))
             overlayWindow?.contentView = contentView
         }
@@ -50,16 +51,30 @@ class AppDelegate: FlutterAppDelegate {
         overlayWindow = nil
     }
 
+    func showFormOverlay() {
+        if formOverlayWindow == nil {
+            let formOverlayWindowController = WindowController(closeOverlay: closeFormOverlay)
+            formOverlayWindow = formOverlayWindowController.window
+            formOverlayWindow?.makeKeyAndOrderFront(nil)
+            formOverlayWindow?.orderFrontRegardless()
+        }
+    }
+
+    func closeFormOverlay() {
+        formOverlayWindow?.orderOut(nil)
+        formOverlayWindow = nil
+    }
+
     func calculateOverlayRect() -> NSRect {
         guard let screen = NSScreen.main else { return NSRect.zero }
         let screenWidth = screen.frame.width
         let screenHeight = screen.frame.height
         let overlayWidth = 150.0
         let overlayHeight = 150.0
-        
+
         let x = screenWidth - overlayWidth - 10
         let y = screenHeight - overlayHeight - 20
-        
+
         return NSRect(x: x, y: y, width: overlayWidth, height: overlayHeight)
     }
 }
@@ -72,31 +87,19 @@ struct OverlayContentView: View {
     }
 
     var body: some View {
-//CANCEL BUTTON COMMENTED
-//        HStack {
-//            Spacer()
-//            Button(action: {
-//                closeOverlay()
-//            }) {
-//                if #available(macOS 11.0, *) {
-//                    Image(systemName: "xmark.circle")
-//                        .foregroundColor(.white)
-//                        .font(.title)
-//                } else {
-//                    
-//                }
-//            }
-//            .padding()
-//        }
         VStack {
             Button(action: {
-                //ADD FUNCTION HERE
-            })
-            {
+                showFormOverlay()
+            }) {
                 LottieView(filename: "cat_wizard_150.json")
             }
             .buttonStyle(.plain)
         }
+    }
+
+    func showFormOverlay() {
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        appDelegate.showFormOverlay()
     }
 }
 
@@ -123,6 +126,6 @@ struct LottieView: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: NSView, context: Context) {
-        
+
     }
 }
