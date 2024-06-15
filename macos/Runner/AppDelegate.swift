@@ -3,10 +3,49 @@ import FlutterMacOS
 import SwiftUI
 import Lottie
 
+var overlayWindow: NSWindow?
+var formOverlayWindow: NSWindow?
+
+func showOverlay() {
+    if overlayWindow == nil {
+        let overlayContentRect = calculateOverlayRect()
+        overlayWindow = NSWindow(contentRect: overlayContentRect,
+                                 styleMask: [.borderless],
+                                 backing: .buffered, defer: false)
+        overlayWindow?.isOpaque = false
+        overlayWindow?.backgroundColor = NSColor.clear
+        overlayWindow?.level = .floating
+        overlayWindow?.ignoresMouseEvents = false
+        overlayWindow?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+
+        let contentView = NSHostingView(rootView: OverlayContentView(closeOverlay: closeOverlay))
+        overlayWindow?.contentView = contentView
+    }
+    overlayWindow?.makeKeyAndOrderFront(nil)
+    overlayWindow?.orderFrontRegardless()
+}
+
+func closeOverlay() {
+    overlayWindow?.orderOut(nil)
+    overlayWindow = nil
+}
+
+func showFormOverlay() {
+    if formOverlayWindow == nil {
+        let formOverlayWindowController = WindowController()
+        formOverlayWindow = formOverlayWindowController.window
+        formOverlayWindow?.makeKeyAndOrderFront(nil)
+        formOverlayWindow?.orderFrontRegardless()
+    }
+}
+
+func closeFormOverlay() {
+    formOverlayWindow?.orderOut(nil)
+    formOverlayWindow = nil
+}
+
 @NSApplicationMain
 class AppDelegate: FlutterAppDelegate {
-    var overlayWindow: NSWindow?
-    var formOverlayWindow: NSWindow?
 
     override func applicationDidFinishLaunching(_ aNotification: Notification) {
         let flutterViewController = mainFlutterWindow?.contentViewController as! FlutterViewController
@@ -14,10 +53,10 @@ class AppDelegate: FlutterAppDelegate {
 
         channel.setMethodCallHandler { (call, result) in
             if call.method == "showOverlay" {
-                self.showOverlay()
+                showOverlay()
                 result(nil)
             } else if call.method == "closeOverlay" {
-                self.closeOverlay()
+                closeOverlay()
                 result(nil)
             } else {
                 result(FlutterMethodNotImplemented)
@@ -25,57 +64,6 @@ class AppDelegate: FlutterAppDelegate {
         }
 
         super.applicationDidFinishLaunching(aNotification)
-    }
-
-    func showOverlay() {
-        if overlayWindow == nil {
-            let overlayContentRect = calculateOverlayRect()
-            overlayWindow = NSWindow(contentRect: overlayContentRect,
-                                     styleMask: [.borderless],
-                                     backing: .buffered, defer: false)
-            overlayWindow?.isOpaque = false
-            overlayWindow?.backgroundColor = NSColor.clear
-            overlayWindow?.level = .floating
-            overlayWindow?.ignoresMouseEvents = false
-            overlayWindow?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-
-            let contentView = NSHostingView(rootView: OverlayContentView(closeOverlay: closeOverlay))
-            overlayWindow?.contentView = contentView
-        }
-        overlayWindow?.makeKeyAndOrderFront(nil)
-        overlayWindow?.orderFrontRegardless()
-    }
-
-    func closeOverlay() {
-        overlayWindow?.orderOut(nil)
-        overlayWindow = nil
-    }
-
-    func showFormOverlay() {
-        if formOverlayWindow == nil {
-            let formOverlayWindowController = WindowController(closeOverlay: closeFormOverlay)
-            formOverlayWindow = formOverlayWindowController.window
-            formOverlayWindow?.makeKeyAndOrderFront(nil)
-            formOverlayWindow?.orderFrontRegardless()
-        }
-    }
-
-    func closeFormOverlay() {
-        formOverlayWindow?.orderOut(nil)
-        formOverlayWindow = nil
-    }
-
-    func calculateOverlayRect() -> NSRect {
-        guard let screen = NSScreen.main else { return NSRect.zero }
-        let screenWidth = screen.frame.width
-        let screenHeight = screen.frame.height
-        let overlayWidth = 150.0
-        let overlayHeight = 150.0
-
-        let x = screenWidth - overlayWidth - 10
-        let y = screenHeight - overlayHeight - 20
-
-        return NSRect(x: x, y: y, width: overlayWidth, height: overlayHeight)
     }
 }
 
@@ -95,11 +83,6 @@ struct OverlayContentView: View {
             }
             .buttonStyle(.plain)
         }
-    }
-
-    func showFormOverlay() {
-        let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        appDelegate.showFormOverlay()
     }
 }
 

@@ -10,12 +10,11 @@ struct FormOverlay: View {
     @State private var fetchAllProductsLoading: Bool?
     @State private var createTaskLoading: Bool?
 
-    let closeOverlay: () -> Void
-
     var body: some View {
-        ZStack {
-            Image("OverlayBackground")
-                .frame(maxWidth: 400, maxHeight: 400, alignment: .topLeading)
+        ZStack(alignment: .topLeading) {
+                    Image("OverlayBackground")
+                        .resizable()
+                        .frame(maxWidth: 200, maxHeight: .infinity)
             ScrollView(.vertical) {
                 Rectangle().fill(Color.clear).frame(height: 36)
 
@@ -98,9 +97,9 @@ struct FormOverlay: View {
                                 let _ = try await ApiService.createTask(data: data)
                                 print("----> CREATE TASK SUCCESS")
                                 createTaskLoading = false
+                                closeFormOverlay()
                                 closeOverlay()
                             } catch {
-                                print("----> CREATE TASK ERROR")
                                 print(error)
                                 createTaskLoading = false
                             }
@@ -115,8 +114,8 @@ struct FormOverlay: View {
 }
 
 class WindowController: NSWindowController {
-    convenience init(closeOverlay: @escaping () -> Void) {
-        let contentView = NSHostingView(rootView: FormOverlay(closeOverlay: closeOverlay))
+    convenience init() {
+        let contentView = NSHostingView(rootView: FormOverlay())
         let window = NSWindow(contentViewController: NSViewController())
         window.contentViewController?.view = contentView
         window.backgroundColor = NSColor.white
