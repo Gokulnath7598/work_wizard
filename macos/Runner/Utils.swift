@@ -44,15 +44,16 @@ extension View {
     }
 }
 
-func calculateOverlayRect() -> NSRect {
+func calculateOverlayRect(right: Double, top: Double) -> NSRect {
     guard let screen = NSScreen.main else { return NSRect.zero }
     let screenWidth = screen.frame.width
     let screenHeight = screen.frame.height
     let overlayWidth = 150.0
     let overlayHeight = 150.0
 
-    let x = screenWidth - overlayWidth - 10
-    let y = screenHeight - overlayHeight - 20
+    let x = screenWidth - overlayWidth - right
+    let y = screenHeight - overlayHeight - top
 
     return NSRect(x: x, y: y, width: overlayWidth, height: overlayHeight)
 }
+

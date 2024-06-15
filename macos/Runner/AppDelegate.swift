@@ -8,7 +8,7 @@ var formOverlayWindow: NSWindow?
 
 func showOverlay() {
     if overlayWindow == nil {
-        let overlayContentRect = calculateOverlayRect()
+        let overlayContentRect = calculateOverlayRect(right: 10, top: 20)
         overlayWindow = NSWindow(contentRect: overlayContentRect,
                                  styleMask: [.borderless],
                                  backing: .buffered, defer: false)
@@ -18,7 +18,7 @@ func showOverlay() {
         overlayWindow?.ignoresMouseEvents = false
         overlayWindow?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
 
-        let contentView = NSHostingView(rootView: OverlayContentView(closeOverlay: closeOverlay))
+        let contentView = NSHostingView(rootView: OverlayContentView())
         overlayWindow?.contentView = contentView
     }
     overlayWindow?.makeKeyAndOrderFront(nil)
@@ -32,11 +32,21 @@ func closeOverlay() {
 
 func showFormOverlay() {
     if formOverlayWindow == nil {
-        let formOverlayWindowController = WindowController()
-        formOverlayWindow = formOverlayWindowController.window
-        formOverlayWindow?.makeKeyAndOrderFront(nil)
-        formOverlayWindow?.orderFrontRegardless()
-    }
+           let formOverlayWindowController = WindowController()
+           formOverlayWindow = formOverlayWindowController.window
+       }
+       
+       // Calculate the position
+       let overlayRect = calculateOverlayRect(right: 0, top: 500)
+       
+       // Get the current size of the form overlay window
+       let currentSize = formOverlayWindow?.frame.size ?? NSSize(width: 150.0, height: 150.0)
+       
+       // Set the frame of the form overlay window with the new position but keep the current size
+       formOverlayWindow?.setFrame(NSRect(origin: overlayRect.origin, size: currentSize), display: true)
+       
+       formOverlayWindow?.makeKeyAndOrderFront(nil)
+       formOverlayWindow?.orderFrontRegardless()
 }
 
 func closeFormOverlay() {
@@ -68,11 +78,6 @@ class AppDelegate: FlutterAppDelegate {
 }
 
 struct OverlayContentView: View {
-    let closeOverlay: () -> Void
-
-    init(closeOverlay: @escaping () -> Void) {
-        self.closeOverlay = closeOverlay
-    }
 
     var body: some View {
         VStack {

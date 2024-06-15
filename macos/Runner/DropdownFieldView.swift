@@ -46,8 +46,8 @@ struct DropdownFieldView: View {
     @ViewBuilder
     private var dropdownContent: some View {
         if isLoading == true {
-            Text("Loading...")
-                .foregroundColor(.black)
+            LottieView(filename: "time_loader_blue_50.json")
+                .frame(maxWidth: .infinity, minHeight: 30)
         } else {
             ScrollView(.vertical) {
                 VStack(spacing: 0) {
