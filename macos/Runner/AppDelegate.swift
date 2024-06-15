@@ -31,9 +31,10 @@ struct ContentView: View {
     @State private var createTaskLoading: Bool?
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .topLeading) {
             Image("OverlayBackground")
-                .frame(maxWidth: 400, maxHeight: 400, alignment: .topLeading)
+                .resizable()
+                .frame(maxWidth: 200, maxHeight: .infinity)
             ScrollView(.vertical) {
                 Rectangle().fill(Color.clear).frame(height: 36)
                 
