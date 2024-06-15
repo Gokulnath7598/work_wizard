@@ -13,6 +13,7 @@ struct DropdownFieldView: View {
                 HStack{
                     Text(selectedItemIndex == nil ? prompt : dropDownOptions[selectedItemIndex!])
                         .foregroundStyle(selectedItemIndex == nil ? .gray : .black)
+                        .padding(.leading, 5.0)
                     Spacer()
                     Image(systemName: "chevron.down").foregroundColor(.gray).rotationEffect(.degrees(isFocused ? 180 : 0))
                 }.padding(.horizontal, 16.0).padding(.vertical, 13.5)

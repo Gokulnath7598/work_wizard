@@ -51,7 +51,9 @@ struct ContentView: View {
                     }
                 }
                 
-                TextFieldView(value: $taskDescription, placeHolder: "Task").padding(.horizontal, 40.0).padding(.vertical, 12.0)
+                TextFieldView(value: $taskDescription, placeHolder: "Task")
+                    .padding(.horizontal, 40.0)
+                    .padding(.vertical, 12.0)
                 
                 HStack (spacing: 24, content: {
                     CustomButton(
@@ -68,7 +70,7 @@ struct ContentView: View {
                 }).padding(.horizontal, 40.0).padding(.vertical, 12.0)
                 
                 NumericFieldView(
-                    placeholder: "ETA", value: $taskDurationInHrs
+                    placeholder: isTaskCompleted ? "Actual Time" : "ETA", value: $taskDurationInHrs
                 ).padding(.horizontal, 40.0).padding(.vertical, 12.0)
                 
                 CustomButton(

@@ -18,3 +18,30 @@ extension Color {
         self.init(red: 0, green: 0, blue: 0) // Return black if invalid hex string
     }
 }
+
+struct PlaceholderColorModifier: ViewModifier {
+    var placeholder: String
+    var placeholderColor: Color
+    var textColor: Color
+
+    @Binding var text: String
+
+    func body(content: Content) -> some View {
+        ZStack(alignment: .leading) {
+            if text.isEmpty {
+                Text(placeholder)
+                    .foregroundColor(placeholderColor)
+                    .padding(.leading, 5.0)
+            }
+            content
+                .foregroundColor(textColor)
+        }
+    }
+}
+
+extension View {
+    func placeholder(placeholder: String, placeholderColor: Color, textColor: Color, text: Binding<String>) -> some View {
+        self.modifier(PlaceholderColorModifier(placeholder: placeholder, placeholderColor: placeholderColor, textColor: textColor, text: text))
+    }
+}
+

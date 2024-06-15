@@ -5,8 +5,8 @@ struct NumericFieldView: View {
     @Binding var value: String
     
     var body: some View {
-        TextField("Enter number", text: $value)
-            .foregroundStyle(.black)
+        TextField("", text: $value)
+            .placeholder(placeholder: placeholder, placeholderColor: .gray, textColor: .black, text: $value)
             .padding(.horizontal, 16).padding(.vertical, 13.5).background(.white).cornerRadius(7).overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color(hex: "#D1D1D1"), lineWidth: 1.5)
