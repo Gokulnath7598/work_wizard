@@ -31,7 +31,6 @@ struct PlaceholderColorModifier: ViewModifier {
             if text.isEmpty {
                 Text(placeholder)
                     .foregroundColor(placeholderColor)
-                    .padding(.leading, 5.0)
             }
             content
                 .foregroundColor(textColor)

@@ -6,6 +6,7 @@ struct NumericFieldView: View {
     
     var body: some View {
         TextField("", text: $value)
+            .textFieldStyle(.plain)
             .placeholder(placeholder: placeholder, placeholderColor: .gray, textColor: .black, text: $value)
             .padding(.horizontal, 16).padding(.vertical, 13.5).background(.white).cornerRadius(7).overlay(
                 RoundedRectangle(cornerRadius: 10)
