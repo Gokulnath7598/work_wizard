@@ -10,8 +10,8 @@ struct CustomButton: View {
         Button(action: onPressAction){
             Text(isLoading == true ? "Loading..." : label)
                 .foregroundStyle(isFilled == true ? Color.white : buttonThemeColor)
-                .padding(.horizontal, 52.25)
                 .padding(.vertical, 13.5)
+                .frame(maxWidth: .infinity)
         }.background(isFilled != true ? Color.white : buttonThemeColor)
             .cornerRadius(8)
             .overlay(
