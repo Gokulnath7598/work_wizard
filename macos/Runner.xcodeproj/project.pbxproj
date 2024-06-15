@@ -23,6 +23,9 @@
 /* Begin PBXBuildFile section */
 		15A02C52FC2788D89BA201EE /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 147CFED1E5D680D920D62F1E /* Pods_RunnerTests.framework */; };
 		163D0BDD5EEE6D9829DDFDE2 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8BE290FC29012FBFD07D73 /* Pods_Runner.framework */; };
+		1A2CDF6D2C1CBF3000686A12 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A2CDF6C2C1CBF3000686A12 /* Lottie.framework */; };
+		1A2CDF792C1CC6D400686A12 /* cat_wizard_200.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A2CDF782C1CC6D400686A12 /* cat_wizard_200.json */; };
+		1A2CDF7B2C1CC7B800686A12 /* cat_wizard_150.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A2CDF7A2C1CC7B300686A12 /* cat_wizard_150.json */; };
 		331C80D8294CF71000263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C80D7294CF71000263BE5 /* RunnerTests.swift */; };
 		335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335BBD1A22A9A15E00E9071D /* GeneratedPluginRegistrant.swift */; };
 		33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC10F02044A3C60003C045 /* AppDelegate.swift */; };
@@ -48,21 +51,12 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		33CC110E2044A8840003C045 /* Bundle Framework */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Bundle Framework";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		147CFED1E5D680D920D62F1E /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A2CDF652C1CB5E500686A12 /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lottie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A2CDF6C2C1CBF3000686A12 /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lottie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A2CDF782C1CC6D400686A12 /* cat_wizard_200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = cat_wizard_200.json; path = ../../assets/json/cat_wizard_200.json; sourceTree = "<group>"; };
+		1A2CDF7A2C1CC7B300686A12 /* cat_wizard_150.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = cat_wizard_150.json; path = ../../assets/json/cat_wizard_150.json; sourceTree = "<group>"; };
 		24437B74ED87FE25C6515F94 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		331C80D5294CF71000263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		331C80D7294CF71000263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
@@ -104,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				163D0BDD5EEE6D9829DDFDE2 /* Pods_Runner.framework in Frameworks */,
+				1A2CDF6D2C1CBF3000686A12 /* Lottie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +170,8 @@
 		33FAB671232836740065AC1E /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				1A2CDF7A2C1CC7B300686A12 /* cat_wizard_150.json */,
+				1A2CDF782C1CC6D400686A12 /* cat_wizard_200.json */,
 				33CC10F02044A3C60003C045 /* AppDelegate.swift */,
 				33CC11122044BFA00003C045 /* MainFlutterWindow.swift */,
 				33E51913231747F40026EE4D /* DebugProfile.entitlements */,
@@ -195,13 +192,14 @@
 				9ED59D4F4B867D2802BEB673 /* Pods-RunnerTests.release.xcconfig */,
 				6EB520A26DB4E0F1C19ABA13 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		D73912EC22F37F3D000D13A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A2CDF6C2C1CBF3000686A12 /* Lottie.framework */,
+				1A2CDF652C1CB5E500686A12 /* Lottie.framework */,
 				AE8BE290FC29012FBFD07D73 /* Pods_Runner.framework */,
 				147CFED1E5D680D920D62F1E /* Pods_RunnerTests.framework */,
 			);
@@ -238,7 +236,6 @@
 				33CC10E92044A3C60003C045 /* Sources */,
 				33CC10EA2044A3C60003C045 /* Frameworks */,
 				33CC10EB2044A3C60003C045 /* Resources */,
-				33CC110E2044A8840003C045 /* Bundle Framework */,
 				3399D490228B24CF009A79C7 /* ShellScript */,
 				F40D1C599379F68B725E391C /* [CP] Embed Pods Frameworks */,
 			);
@@ -248,6 +245,8 @@
 				33CC11202044C79F0003C045 /* PBXTargetDependency */,
 			);
 			name = Runner;
+			packageProductDependencies = (
+			);
 			productName = Runner;
 			productReference = 33CC10ED2044A3C60003C045 /* my_macos_app.app */;
 			productType = "com.apple.product-type.application";
@@ -292,6 +291,9 @@
 				Base,
 			);
 			mainGroup = 33CC10E42044A3C60003C045;
+			packageReferences = (
+				1A1925672C14C96800B8767B /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = 33CC10EE2044A3C60003C045 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -315,6 +317,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2CDF792C1CC6D400686A12 /* cat_wizard_200.json in Resources */,
+				1A2CDF7B2C1CC7B800686A12 /* cat_wizard_150.json in Resources */,
 				33CC10F32044A3C60003C045 /* Assets.xcassets in Resources */,
 				33CC10F62044A3C60003C045 /* MainMenu.xib in Resources */,
 			);
@@ -478,6 +482,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.myMacosApp.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -493,6 +498,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.myMacosApp.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -508,6 +514,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.myMacosApp.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -579,7 +586,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -589,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Profile;
@@ -712,7 +720,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -733,7 +741,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -743,6 +751,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -751,6 +760,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -799,6 +809,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A1925672C14C96800B8767B /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 33CC10E52044A3C60003C045 /* Project object */;
 }
