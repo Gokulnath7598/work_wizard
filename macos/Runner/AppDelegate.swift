@@ -78,7 +78,6 @@ class AppDelegate: FlutterAppDelegate {
 }
 
 struct OverlayContentView: View {
-
     var body: some View {
         VStack {
             Button(action: {
@@ -93,27 +92,27 @@ struct OverlayContentView: View {
 
 struct LottieView: NSViewRepresentable {
     var filename: String
-
+    
     func makeNSView(context: Context) -> NSView {
         let view = NSView()
-
+        
         let animationView = LottieAnimationView(name: filename)
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
         animationView.play()
-
+        
         animationView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(animationView)
-
+        
         NSLayoutConstraint.activate([
             animationView.widthAnchor.constraint(equalTo: view.widthAnchor),
             animationView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
-
+        
         return view
     }
-
+    
     func updateNSView(_ nsView: NSView, context: Context) {
-
+        
     }
 }
