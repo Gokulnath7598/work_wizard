@@ -34,11 +34,6 @@ class HomeScreen extends StatelessWidget {
               },
               child: Text('Show Overlay'),
             ),
-            Container(
-              height: 200,
-              width: 200,
-              child: Lottie.asset('assets/json/cat_wizard.json'),
-            ),
             ElevatedButton(
               onPressed: () {
                 platform.invokeMethod('closeOverlay');

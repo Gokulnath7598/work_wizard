@@ -28,7 +28,7 @@ class AppDelegate: FlutterAppDelegate {
 
     func showOverlay() {
         if overlayWindow == nil {
-            let overlayContentRect = NSRect(x: 100, y: 100, width: 200, height: 100)
+            let overlayContentRect = calculateOverlayRect()
             overlayWindow = NSWindow(contentRect: overlayContentRect,
                                      styleMask: [.borderless],
                                      backing: .buffered, defer: false)
@@ -49,6 +49,19 @@ class AppDelegate: FlutterAppDelegate {
         overlayWindow?.orderOut(nil)
         overlayWindow = nil
     }
+
+    func calculateOverlayRect() -> NSRect {
+        guard let screen = NSScreen.main else { return NSRect.zero }
+        let screenWidth = screen.frame.width
+        let screenHeight = screen.frame.height
+        let overlayWidth = 150.0
+        let overlayHeight = 150.0
+        
+        let x = screenWidth - overlayWidth - 10
+        let y = screenHeight - overlayHeight - 20
+        
+        return NSRect(x: x, y: y, width: overlayWidth, height: overlayHeight)
+    }
 }
 
 struct OverlayContentView: View {
@@ -59,52 +72,57 @@ struct OverlayContentView: View {
     }
 
     var body: some View {
-        HStack {
-            Spacer()
-            Button(action: {
-                closeOverlay()
-            }) {
-                if #available(macOS 11.0, *) {
-                    Image(systemName: "xmark.circle")
-                        .foregroundColor(.white)
-                        .font(.title)
-                } else {
-                    
-                }
-            }
-            .padding()
-        }
+//CANCEL BUTTON COMMENTED
+//        HStack {
+//            Spacer()
+//            Button(action: {
+//                closeOverlay()
+//            }) {
+//                if #available(macOS 11.0, *) {
+//                    Image(systemName: "xmark.circle")
+//                        .foregroundColor(.white)
+//                        .font(.title)
+//                } else {
+//                    
+//                }
+//            }
+//            .padding()
+//        }
         VStack {
-            LottieView(filename: "cat_wizard_150.json")
+            Button(action: {
+                //ADD FUNCTION HERE
+            })
+            {
+                LottieView(filename: "cat_wizard_150.json")
+            }
+            .buttonStyle(.plain)
         }
     }
 }
 
-    struct LottieView: NSViewRepresentable {
-        var filename: String
+struct LottieView: NSViewRepresentable {
+    var filename: String
 
-        func makeNSView(context: Context) -> NSView {
-            let view = NSView()
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
 
-            let animationView = LottieAnimationView(name: filename)
-            animationView.contentMode = .scaleAspectFit
-            animationView.loopMode = .loop
-            animationView.play()
+        let animationView = LottieAnimationView(name: filename)
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
 
-            animationView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(animationView)
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(animationView)
 
-            NSLayoutConstraint.activate([
-                animationView.widthAnchor.constraint(equalTo: view.widthAnchor),
-                animationView.heightAnchor.constraint(equalTo: view.heightAnchor)
-            ])
+        NSLayoutConstraint.activate([
+            animationView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            animationView.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
 
-            return view
-        }
-
-        func updateNSView(_ nsView: NSView, context: Context) {
-            
-        }
+        return view
     }
 
-
+    func updateNSView(_ nsView: NSView, context: Context) {
+        
+    }
+}
