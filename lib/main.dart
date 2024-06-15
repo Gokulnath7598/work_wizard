@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +33,11 @@ class HomeScreen extends StatelessWidget {
                 platform.invokeMethod('showOverlay');
               },
               child: Text('Show Overlay'),
+            ),
+            Container(
+              height: 200,
+              width: 200,
+              child: Lottie.asset('assets/json/cat_wizard.json'),
             ),
             ElevatedButton(
               onPressed: () {
