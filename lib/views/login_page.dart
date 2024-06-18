@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
             const Spacer(),
             const Text(
               'Work Wizard',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 55,
                   fontWeight: FontWeight.bold,
@@ -36,23 +37,38 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Spacer(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Image.asset(
-                  AppAssets.arrowLeft,
-                  width: size.width * 0.15,
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 0.03 * size.width,
+                    right: 0.02 * size.width,
+                  ),
+                  child: Image.asset(
+                    AppAssets.arrowLeft,
+                    width: size.width * 0.11,
+                  ),
                 ),
-                const Text(
-                  'user friendly ET Sheet reminder and tracker',
-                  style: TextStyle(
+                const Expanded(
+                  child: Text(
+                    'user friendly ET Sheet reminder and tracker',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       fontSize: 24,
                       fontStyle: FontStyle.italic,
                       // fontWeight: FontWeig,
-                      color: Colors.black),
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-                Image.asset(
-                  AppAssets.arrowRight,
-                  width: size.width * 0.15,
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: 0.03 * size.width,
+                    left: 0.02 * size.width,
+                  ),
+                  child: Image.asset(
+                    AppAssets.arrowRight,
+                    width: size.width * 0.11,
+                  ),
                 ),
               ],
             ),
@@ -66,13 +82,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
+                    );
+                    // UserManagement.authenticate(Token());
                   },
                   child: const Text(
                     'Sign in with Microsoft',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
                   ),
                 )),
             const Spacer(),
