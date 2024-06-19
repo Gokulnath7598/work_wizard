@@ -1,15 +1,15 @@
 import 'package:my_macos_app/models/models.dart';
 
-class User {
-  User({
+class AppUser {
+  AppUser({
     this.email,
     this.id,
     this.name,
     this.workingProjects,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory AppUser.fromJson(Map<String, dynamic> json) {
+    return AppUser(
       email: json['email'] as String?,
       id: json['id'] as int?,
       name: json['name'] as String?,

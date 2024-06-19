@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:my_macos_app/constants/app_assets.dart';
+import 'package:my_macos_app/core/app_router/app_router.dart';
 import 'package:my_macos_app/views/home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
+  static const routePath = '/auth/login';
   const LoginPage({super.key});
 
   @override
@@ -74,30 +77,27 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Spacer(),
             Container(
-                width: 280,
-                height: 56,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.white),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ),
-                    );
-                    // UserManagement.authenticate(Token());
-                  },
-                  child: const Text(
-                    'Sign in with Microsoft',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+              width: 280,
+              height: 56,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50), color: Colors.white),
+              child: TextButton(
+                onPressed: () {
+                  AppRouter.navigatorKey.currentContext?.go(
+                    HomePage.routePath,
+                  );
+                  // UserManagement.authenticate(Token());
+                },
+                child: const Text(
+                  'Sign in with Microsoft',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
                   ),
-                )),
+                ),
+              ),
+            ),
             const Spacer(),
           ],
         ),
