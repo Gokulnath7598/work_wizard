@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:my_macos_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:my_macos_app/constants/app_assets.dart';
 import 'package:my_macos_app/core/app_router/app_router.dart';
 import 'package:my_macos_app/views/home/home_page.dart';
@@ -14,10 +17,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late final AuthBloc _authBloc;
+
+  @override
+  void initState() {
+    _authBloc = AuthBloc();
+    super.initState();
+  }
+
+  void Function(BuildContext, AuthState) loginUsingMicrosoftListener =
+      (BuildContext context, AuthState state) {
+    if (state is LoginUsingMicrosoftSuccess) {
+      AppRouter.navigatorKey.currentContext?.go(HomePage.routePath);
+    }
+  };
+
+  @override
+  void dispose() {
+    _authBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
     return MacosWindow(
       child: Container(
         decoration: const BoxDecoration(
@@ -76,27 +99,34 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             const Spacer(),
-            Container(
-              width: 280,
-              height: 56,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50), color: Colors.white),
-              child: TextButton(
-                onPressed: () {
-                  AppRouter.navigatorKey.currentContext?.go(
-                    HomePage.routePath,
-                  );
-                  // UserManagement.authenticate(Token());
-                },
-                child: const Text(
-                  'Sign in with Microsoft',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
+            BlocConsumer<AuthBloc, AuthState>(
+              bloc: _authBloc,
+              listener: loginUsingMicrosoftListener,
+              builder: (context, authState) {
+                return Container(
+                  width: 280,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.white,
                   ),
-                ),
-              ),
+                  child: authState is LoginUsingMicrosoftLoading
+                      ? const CupertinoActivityIndicator()
+                      : TextButton(
+                          onPressed: () {
+                            _authBloc.add(LoginUsingMicrosoft());
+                          },
+                          child: const Text(
+                            'Sign in with Microsoft',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                );
+              },
             ),
             const Spacer(),
           ],

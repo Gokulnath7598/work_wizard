@@ -41,7 +41,7 @@ abstract class BaseBloc<E, S extends ErrorState> extends Bloc<E, S> {
           ..errorCode = 0
           ..errorMsg = err.toString());
       }
-    }  on FirebaseAuthException catch (err) {
+    } on FirebaseAuthException catch (err) {
       debugPrint('============ firebase catch block: $err');
       emit(getErrorState()
         ..errorCode = 0
@@ -68,6 +68,12 @@ abstract class ErrorState {
 
 class AppBlocObserver extends BlocObserver {
   @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    debugPrint('onCreate -- bloc : ${bloc.runtimeType}');
+  }
+
+  @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
     debugPrint('${bloc.runtimeType} $change');
@@ -78,7 +84,8 @@ class AppBlocObserver extends BlocObserver {
       Bloc<dynamic, dynamic> bloc, Transition<dynamic, dynamic> transition) {
     super.onTransition(bloc, transition);
     debugPrint(
-        'onTransition -- bloc: ${bloc.runtimeType}, transition: $transition');
+      'onTransition -- bloc: ${bloc.runtimeType}, transition: $transition',
+    );
   }
 
   @override
