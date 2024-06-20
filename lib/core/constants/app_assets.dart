@@ -7,4 +7,5 @@ class AppAssets {
   static const String expandIcon = 'assets/expand_icon.png';
   static const String shrinkIcon = 'assets/shrink_icon.png';
   static const String timelineIcon = 'assets/timeline.png';
+  static const String homeIcon = 'assets/home_icon.png';
 }

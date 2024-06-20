@@ -34,21 +34,23 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 100),
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  showTimeline = !showTimeline;
-                });
-              },
-              child: Text(
-                showTimeline ? 'Home Page' : 'Timeline',
-                style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-              ),
+          SizedBox(width: 50),
+          InkWell(
+            onTap: (){},
+            child: Image.asset(showTimeline ? AppAssets.homeIcon : AppAssets.timelineIcon),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                showTimeline = !showTimeline;
+              });
+            },
+            child: Text(
+              showTimeline ? 'Home Page' : 'Timeline',
+              style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
             ),
           ),
         ],
