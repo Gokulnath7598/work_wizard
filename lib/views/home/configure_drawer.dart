@@ -233,7 +233,9 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                         onTap: () async {
                           List<DateTime>? dates =
                               await showOmniDateTimeRangePicker(
-                                  context: context);
+                                  context: context,
+                                  startInitialDate: startDate,
+                                  endInitialDate: toDate);
                           if (dates != null && (dates.isNotEmpty)) {
                             setState(() {
                               startDate = dates.first;
