@@ -125,6 +125,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   void initState() {
     timeLineBloc = context.read<TimeLineBloc>();
     timeLineBloc.add(GetTimeLine());
+    print(timeLineBloc.getTimeLineSuccess.timeLine);
     super.initState();
   }
 
@@ -138,7 +139,8 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
           margin: const EdgeInsets.all(20),
           height: 800,
           width: size.width * 0.5,
-          child: ListView(
+          child: timeLineBloc.getTimeLineSuccess.timeLine != null || (timeLineBloc.getTimeLineSuccess.timeLine??[]).isEmpty  ?
+          ListView(
             shrinkWrap: true,
             children: [
               EasyInfiniteDateTimeLine(
@@ -202,7 +204,8 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
                 ),
               )
             ],
-          ),
+          )
+          : SizedBox(width: 0, height: 0,),
         );
       }
     );
