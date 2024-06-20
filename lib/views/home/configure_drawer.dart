@@ -26,8 +26,8 @@ class ConfigureDrawer extends StatefulWidget {
 
 class _ConfigureDrawerState extends State<ConfigureDrawer> {
   List<Project>? selectedProjects = <Project>[];
-  late DateTime startDate;
-  late DateTime toDate;
+  DateTime startDate = DateTime.now();
+  DateTime toDate = DateTime.now();
   DateFormat format = DateFormat.jm();
 
   late ProjectBloc projectBloc;
@@ -35,6 +35,7 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
   Future<void> onAppBlocChange(
       {required BuildContext context, required ProjectState state}) async {
     if (state is UpdateProfileSuccess) {
+      
       widget._scaffoldKey.currentState?.closeEndDrawer();
     } else if (state is ProjectAppState) {
       selectedProjects = context
@@ -144,8 +145,7 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                 color: Colors.black12, width: 1),
                             dropdownButtonColor: Colors.white,
                             onChanged: (newValue) {
-                              // print(
-                              // '////////////////////////${selectedProjects?.where((e) => e.id == newValue?.id).isNotEmpty}');
+                              
                               setState(() {
                                 if (selectedProjects
                                         ?.where((e) => e.id == newValue?.id)
@@ -236,21 +236,8 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                   context: context);
                           if (dates != null && (dates.isNotEmpty)) {
                             setState(() {
-                              context
-                                      .read<ProjectBloc>()
-                                      .projectAppState
-                                      .user
-                                      ?.user
-                                      ?.workingHours
-                                      ?.startTime =
-                                  dates.first.toLocal().toString();
-                              context
-                                  .read<ProjectBloc>()
-                                  .projectAppState
-                                  .user
-                                  ?.user
-                                  ?.workingHours
-                                  ?.endTime = dates.last.toLocal().toString();
+                              startDate = dates.first;
+                              toDate = dates.last;
                             });
                           }
                         },
@@ -261,14 +248,7 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            format.format(DateTime.parse(context
-                                    .read<ProjectBloc>()
-                                    .projectAppState
-                                    .user
-                                    ?.user
-                                    ?.workingHours
-                                    ?.startTime ??
-                                DateTime.now().toString())),
+                            format.format(startDate),
                             style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w500,
@@ -289,24 +269,13 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                         onTap: () async {
                           List<DateTime>? dates =
                               await showOmniDateTimeRangePicker(
-                                  context: context);
+                                  context: context,
+                                  startInitialDate: startDate,
+                                  endInitialDate: toDate);
                           if (dates != null && (dates.isNotEmpty)) {
                             setState(() {
-                              context
-                                      .read<ProjectBloc>()
-                                      .projectAppState
-                                      .user
-                                      ?.user
-                                      ?.workingHours
-                                      ?.startTime =
-                                  dates.first.toLocal().toString();
-                              context
-                                  .read<ProjectBloc>()
-                                  .projectAppState
-                                  .user
-                                  ?.user
-                                  ?.workingHours
-                                  ?.endTime = dates.last.toLocal().toString();
+                              startDate = dates.first;
+                              toDate = dates.last;
                             });
                           }
                         },
@@ -317,14 +286,7 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            format.format(DateTime.parse(context
-                                    .read<ProjectBloc>()
-                                    .projectAppState
-                                    .user
-                                    ?.user
-                                    ?.workingHours
-                                    ?.endTime ??
-                                DateTime.now().toString())),
+                            format.format(toDate),
                             style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w500,
@@ -346,20 +308,8 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                             .toList() ??
                                         []),
                                 "working_hours": {
-                                  "start_time": context
-                                      .read<ProjectBloc>()
-                                      .projectAppState
-                                      .user
-                                      ?.user
-                                      ?.workingHours
-                                      ?.startTime,
-                                  "end_time": context
-                                      .read<ProjectBloc>()
-                                      .projectAppState
-                                      .user
-                                      ?.user
-                                      ?.workingHours
-                                      ?.endTime
+                                  "start_time": startDate.toLocal().toString(),
+                                  "end_time": toDate.toLocal().toString()
                                 }
                               }
                             }));

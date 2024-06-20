@@ -29,11 +29,9 @@ class ProjectBloc extends BaseBloc<ProjectEvent, ProjectState> {
       UpdateProfile event, Emitter<ProjectState> emit) async {
     emit(ProjectLoading());
 
-    final User? user =
-        await ProjectService.updateUser(objToApi: event.objToApi);
-    
+    await ProjectService.updateUser(objToApi: event.objToApi);
 
-    emit(projectAppState..user = user);
+    emit(UpdateProfileSuccess());
   }
 
   FutureOr<void> _getProjects(
