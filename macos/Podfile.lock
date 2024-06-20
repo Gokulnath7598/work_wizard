@@ -1,11 +1,17 @@
 PODS:
   - FlutterMacOS (1.0.0)
+  - lottie-ios (4.4.3)
   - macos_window_utils (1.0.0):
     - FlutterMacOS
 
 DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - lottie-ios
   - macos_window_utils (from `Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos`)
+
+SPEC REPOS:
+  trunk:
+    - lottie-ios
 
 EXTERNAL SOURCES:
   FlutterMacOS:
@@ -15,8 +21,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  lottie-ios: fcb5e73e17ba4c983140b7d21095c834b3087418
   macos_window_utils: 933f91f64805e2eb91a5bd057cf97cd097276663
 
-PODFILE CHECKSUM: f0c21717cb7ee9112f915044c74bfceb5b12e02a
+PODFILE CHECKSUM: 8155cc6dad428c6bed96235225c0aee7f8fada93
 
 COCOAPODS: 1.15.2
