@@ -1,7 +1,9 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:my_macos_app/constants/app_assets.dart';
 import 'package:my_macos_app/constants/app_colors.dart';
 import 'package:my_macos_app/views/home/configure_drawer.dart';
+import 'package:timelines/timelines.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isExpanded = true;
+  bool showTimeline = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -18,6 +20,29 @@ class _HomePageState extends State<HomePage> {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 100),
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  showTimeline = !showTimeline;
+                });
+              },
+              child: Text(
+                showTimeline ? 'Home Page' : 'Timeline',
+                style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Colors.white,
       key: _scaffoldKey,
       endDrawer: ConfigureDrawer(size: size, scaffoldKey: _scaffoldKey),
@@ -32,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.scaleDown)),
         child: Row(
           children: [
-            AddTaskWidget(size: size),
+            showTimeline ? const TimeLineWidget() : AddTaskWidget(size: size),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,6 +83,93 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TimeLineWidget extends StatefulWidget {
+  const TimeLineWidget({super.key});
+
+  @override
+  State<TimeLineWidget> createState() => _TimeLineWidgetState();
+}
+
+class _TimeLineWidgetState extends State<TimeLineWidget> {
+  DateTime focusDate = DateTime.now();
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
+    return Container(
+      margin: const EdgeInsets.all(20),
+      height: 800,
+      width: size.width * 0.5,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          EasyInfiniteDateTimeLine(
+            controller: EasyInfiniteDateTimelineController(),
+            firstDate: DateTime(2024),
+            focusDate: focusDate,
+            lastDate: DateTime(2024, 12, 31),
+            onDateChange: (selectedDate) {
+              setState(() {
+                focusDate = selectedDate;
+              });
+            },
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+          Timeline.tileBuilder(
+            clipBehavior: Clip.none,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            builder: TimelineTileBuilder.fromStyle(
+              addRepaintBoundaries: false,
+              contentsAlign: ContentsAlign.basic,
+              indicatorStyle: IndicatorStyle.outlined,
+              contentsBuilder: (context, index) => const Padding(
+                padding: EdgeInsets.all(24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Lorem ipsum dolor sit amet'),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('3 Hrs'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Actual'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              oppositeContentsBuilder: (context, index) => const Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('11:00'),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Rise'),
+                  ],
+                ),
+              ),
+              itemCount: 10,
+            ),
+          )
+        ],
       ),
     );
   }
