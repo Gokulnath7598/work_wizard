@@ -22,7 +22,7 @@ class ApiService {
 
     // Synchronous version for macOS 10.15
     static func getAllProjectsSync() throws -> Projects? {
-        let url = URL(string: baseUrl + "/project_management/all_projects")
+        let url = URL(string: baseUrl + "/user/projests")
         if url != nil {
             var request = URLRequest(url: url!)
             request.httpMethod = "GET"
@@ -44,7 +44,7 @@ class ApiService {
     }
 
     static func createTask(data: TaskData) async throws -> TaskResponseModel? {
-        let url = URL(string: baseUrl + "/task_management/task")
+        let url = URL(string: baseUrl + "/user/tasks")
         if url != nil {
             var request = URLRequest(url: url!)
             request.httpMethod = "POST"
