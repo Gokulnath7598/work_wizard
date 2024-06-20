@@ -18,6 +18,7 @@ class AppBloc extends BaseBloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) async {
     PreferencesClient.saveUser(event.user);
+    blocState.user = event.user;
     emit(
       blocState.copyWith(
         user: event.user,

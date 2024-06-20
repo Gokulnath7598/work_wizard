@@ -32,8 +32,6 @@ class _LoginPageState extends State<LoginPage> {
     AuthState state,
   ) {
     if (state is LoginUsingMicrosoftSuccess) {
-      print(state.user?.name);
-      print(state.token?.accessToken);
       context.read<AppBloc>().add(
             SaveAppUser(
               user: state.user,

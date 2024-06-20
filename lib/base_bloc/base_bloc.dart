@@ -48,6 +48,7 @@ abstract class BaseBloc<E, S extends ErrorState> extends Bloc<E, S> {
     //     ..errorMsg = err.message.toString());
     // }
     catch (err) {
+    } catch (err) {
       debugPrint('============ eventHandler catch block: $err');
       emit(getErrorState()
         ..errorCode = 0

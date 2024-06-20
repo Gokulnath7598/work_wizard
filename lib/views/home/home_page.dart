@@ -8,6 +8,10 @@ import 'package:my_macos_app/blocs/timeline/timeline_bloc.dart';
 import 'package:my_macos_app/core/constants/app_assets.dart';
 import 'package:my_macos_app/core/theme/app_colors.dart';
 import 'package:my_macos_app/models/daily_task.dart';
+import 'package:my_macos_app/blocs/app_bloc/app_bloc.dart';
+
+import 'package:my_macos_app/main.dart';
+import 'package:my_macos_app/preferences_client/preferences_client.dart';
 import 'package:my_macos_app/views/home/configure_drawer.dart';
 import 'package:timelines/timelines.dart';
 
@@ -23,6 +27,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool showTimeline = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    OverlayController.platform.invokeMethod('showOverlay');
+    OverlayController.startOverlayTimer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +132,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     timeLineBloc = BlocProvider.of<TimeLineBloc>(context);
     super.didChangeDependencies();
   }
+
   @override
   void initState() {
     timeLineBloc = context.read<TimeLineBloc>();
@@ -135,87 +147,93 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
 
     return BlocBuilder<TimeLineBloc, TimeLineState>(
         builder: (BuildContext context, TimeLineState timeLineState) {
-        return Container(
-          margin: const EdgeInsets.all(20),
-          height: 800,
-          width: size.width * 0.5,
-          child: timeLineBloc.getTimeLineSuccess.timeLine != null || (timeLineBloc.getTimeLineSuccess.timeLine??[]).isEmpty  ?
-          ListView(
-            shrinkWrap: true,
-            children: [
-              EasyInfiniteDateTimeLine(
-                controller: EasyInfiniteDateTimelineController(),
-                firstDate: DateTime(2024),
-                focusDate: focusDate,
-                lastDate: DateTime(2024, 12, 31),
-                onDateChange: (selectedDate) {
-                  setState(() {
-                    focusDate = selectedDate;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-              Timeline.tileBuilder(
-                clipBehavior: Clip.none,
+      return Container(
+        margin: const EdgeInsets.all(20),
+        height: 800,
+        width: size.width * 0.5,
+        child: timeLineBloc.getTimeLineSuccess.timeLine != null ||
+                (timeLineBloc.getTimeLineSuccess.timeLine ?? []).isEmpty
+            ? ListView(
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                builder: TimelineTileBuilder.fromStyle(
-                  addRepaintBoundaries: false,
-                  contentsAlign: ContentsAlign.basic,
-                  indicatorStyle: IndicatorStyle.outlined,
-                  contentsBuilder: (context, index) => Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(timeLineBloc.getTimeLineSuccess.timeLine!.first.taskDescription.toString()),
-                        SizedBox(
-                          width: 50,
+                children: [
+                  EasyInfiniteDateTimeLine(
+                    controller: EasyInfiniteDateTimelineController(),
+                    firstDate: DateTime(2024),
+                    focusDate: focusDate,
+                    lastDate: DateTime(2024, 12, 31),
+                    onDateChange: (selectedDate) {
+                      setState(() {
+                        focusDate = selectedDate;
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  Timeline.tileBuilder(
+                    clipBehavior: Clip.none,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    builder: TimelineTileBuilder.fromStyle(
+                      addRepaintBoundaries: false,
+                      contentsAlign: ContentsAlign.basic,
+                      indicatorStyle: IndicatorStyle.outlined,
+                      contentsBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.all(24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(timeLineBloc.getTimeLineSuccess.timeLine!.first
+                                .taskDescription
+                                .toString()),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('3 Hrs'),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text('Actual'),
+                              ],
+                            ),
+                          ],
                         ),
-                        Column(
+                      ),
+                      oppositeContentsBuilder: (context, index) =>
+                          const Padding(
+                        padding: EdgeInsets.all(24.0),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('3 Hrs'),
+                            Text('11:00'),
                             SizedBox(
                               height: 10,
                             ),
-                            Text('Actual'),
+                            Text('Rise'),
                           ],
                         ),
-                      ],
+                      ),
+                      itemCount: 10,
                     ),
-                  ),
-                  oppositeContentsBuilder: (context, index) => const Padding(
-                    padding: EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('11:00'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Rise'),
-                      ],
-                    ),
-                  ),
-                  itemCount: 10,
-                ),
+                  )
+                ],
               )
-            ],
-          )
-          : SizedBox(width: 0, height: 0,),
-        );
-      }
-    );
+            : SizedBox(
+                width: 0,
+                height: 0,
+              ),
+      );
+    });
   }
+
   void onTimeLineBlocChange(
       {required BuildContext context, required TimeLineState state}) {
     switch (state.runtimeType) {
       case const (GetTimeLineSuccess):
-        timeLineList =
-            (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
+        timeLineList = (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
     }
   }
 }

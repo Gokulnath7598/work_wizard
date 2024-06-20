@@ -32,6 +32,10 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # Add Lottie dependency
+  pod 'lottie-ios', '~> 3.1.8'
+
   target 'RunnerTests' do
     inherit! :search_paths
   end
