@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:my_macos_app/constants/app_assets.dart';
+import 'package:my_macos_app/core/constants/app_assets.dart';
 import 'package:my_macos_app/views/home/home_page.dart';
 
 class LoginPage extends StatefulWidget {

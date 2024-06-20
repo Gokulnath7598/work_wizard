@@ -1,7 +1,7 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:my_macos_app/constants/app_assets.dart';
-import 'package:my_macos_app/constants/app_colors.dart';
+import 'package:my_macos_app/core/constants/app_assets.dart';
+import 'package:my_macos_app/core/theme/app_colors.dart';
 import 'package:my_macos_app/views/home/configure_drawer.dart';
 import 'package:timelines/timelines.dart';
 

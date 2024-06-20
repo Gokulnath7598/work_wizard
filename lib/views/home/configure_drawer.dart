@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:intl/intl.dart';
-import 'package:my_macos_app/constants/app_assets.dart';
-import 'package:my_macos_app/constants/app_colors.dart';
+import 'package:my_macos_app/core/constants/app_assets.dart';
+import 'package:my_macos_app/core/theme/app_colors.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 class ConfigureDrawer extends StatefulWidget {
