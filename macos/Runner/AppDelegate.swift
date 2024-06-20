@@ -24,37 +24,6 @@ class AppDelegate: FlutterAppDelegate {
       }
     }
       
-    let auth_channel = FlutterMethodChannel(name: "com.employee.work_wizard", binaryMessenger: flutterViewController.engine.binaryMessenger)
-      auth_channel.setMethodCallHandler{(call, result) in
-          if call.method == "loginUsingMicrosoft"{
-              FirebaseApp.configure()
-              var provider = OAuthProvider(providerID: "microsoft.com")
-              provider.customParameters = [
-                "tenant": "cf77e474-cc9d-443d-9ae3-91c0c0121362"
-              ]
-//              
-//              provider.getCredentialWith(nil) { credential, error in
-//                    if error != nil {
-//                      // Handle error.
-//                    }
-//                    if credential != nil {
-//                      Auth().signIn(with: credential!) { authResult, error in
-//                        if error != nil {
-//                          // Handle error.
-//                        }
-//                        // User is signed in.
-//                        // IdP data available in authResult.additionalUserInfo.profile.
-//                        // OAuth access token can also be retrieved:
-//                        // (authResult.credential as? OAuthCredential)?.accessToken
-//                        // OAuth ID token can also be retrieved:
-//                        // (authResult.credential as? OAuthCredential)?.idToken
-//                      }
-//                    }
-//                  }
-//              result(true)
-          }
-      }
-
     super.applicationDidFinishLaunching(aNotification)
   }
 
