@@ -1,5 +1,5 @@
 import Cocoa
-import FirebaseAuth
+
 import FlutterMacOS
 import SwiftUI
 import Lottie

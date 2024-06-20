@@ -20,9 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    OverlayController.platform.invokeMethod('showOverlay', {
-      'working_projects': PreferencesClient.getUser()?.workingProjects,
-    });
+    OverlayController.platform.invokeMethod('showOverlay');
     OverlayController.startOverlayTimer();
     super.initState();
   }

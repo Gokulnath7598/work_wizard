@@ -84,10 +84,10 @@ struct FormOverlay: View {
                     buttonThemeColor: Color(hex: "#00A4EF"), label: "Done", isFilled: true, isLoading: createTaskLoading
                 ) {
                     Task {
-                        if selectedProject != nil && !taskDescription.isEmpty && !taskDurationInHrs.isEmpty {
+                        if !taskDescription.isEmpty && !taskDurationInHrs.isEmpty {
                             do {
                                 let data = TaskData(
-                                    projectId: selectedProject!,
+                                    projectId: 1,
                                     description: taskDescription,
                                     status: isTaskCompleted ? "completed" : "in_progress",
                                     duration: taskDurationInHrs
