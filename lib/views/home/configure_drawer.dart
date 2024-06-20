@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:my_macos_app/blocs/project/project_bloc.dart';
 import 'package:my_macos_app/core/constants/app_assets.dart';
 import 'package:my_macos_app/core/theme/app_colors.dart';
-import 'package:my_macos_app/models/user.dart';
+import 'package:my_macos_app/models/projects.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 class ConfigureDrawer extends StatefulWidget {
@@ -24,7 +24,7 @@ class ConfigureDrawer extends StatefulWidget {
 }
 
 class _ConfigureDrawerState extends State<ConfigureDrawer> {
-  List<WorkingProject?> selectedProjects = <WorkingProject?>[];
+  List<Project>? selectedProjects = <Project>[];
   DateTime startDate = DateTime.now();
   DateTime toDate = DateTime.now();
   DateFormat format = DateFormat.jm();
@@ -35,6 +35,9 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
   void initState() {
     projectBloc = context.read<ProjectBloc>();
     projectBloc.add(GetProfile());
+    projectBloc.add(GetProjects());
+
+    selectedProjects = projectBloc.projectAppState.user?.user?.workingProjects;
 
     super.initState();
   }
@@ -95,7 +98,7 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.all(20),
                         child: DropdownButtonHideUnderline(
-                          child: GFDropdown<WorkingProject?>(
+                          child: GFDropdown<Project>(
                             focusColor: Colors.white,
                             iconEnabledColor: AppColors.blueColor,
                             hint: const Text('Working projects'),
@@ -106,15 +109,16 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                             dropdownButtonColor: Colors.white,
                             onChanged: (newValue) {
                               setState(() {
-                                if (selectedProjects.contains(newValue)) {
-                                  selectedProjects.remove(newValue);
+                                if (selectedProjects?.contains(newValue) ??
+                                    false) {
+                                  selectedProjects?.remove(newValue);
                                 } else {
-                                  selectedProjects.add(newValue);
+                                  selectedProjects?.add(newValue ?? Project());
                                 }
                               });
                             },
                             items: projectBloc
-                                .projectAppState.user?.user?.workingProjects
+                                .projectAppState.projects?.projects
                                 ?.map((value) => DropdownMenuItem(
                                       value: value,
                                       child: Container(
@@ -130,7 +134,9 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(value.name ?? ''),
-                                              selectedProjects.contains(value)
+                                              (selectedProjects
+                                                          ?.contains(value) ??
+                                                      false)
                                                   ? const Icon(
                                                       Icons.check_circle,
                                                       color: Colors.green,
@@ -145,17 +151,21 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                       ),
                       Wrap(
                         children: [
-                          ...selectedProjects.map((e) => Container(
-                                padding: const EdgeInsets.all(8),
-                                margin: const EdgeInsets.only(right: 10),
-                                decoration: BoxDecoration(
-                                    color: AppColors.blackColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  e?.name ?? '',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ))
+                          ...?projectBloc
+                              .projectAppState.user?.user?.workingProjects
+                              ?.map((e) => Container(
+                                    padding: const EdgeInsets.all(8),
+                                    margin: const EdgeInsets.only(right: 10),
+                                    decoration: BoxDecoration(
+                                        color: AppColors.blackColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Text(
+                                      e.name ?? '',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ))
                         ],
                       ),
                       const SizedBox(
@@ -216,18 +226,31 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                             // fontStyle: FontStyle.italic,
                             color: Colors.black),
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          format.format(toDate),
-                          style: const TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
+                      GestureDetector(
+                        onTap: () async {
+                          List<DateTime>? dates =
+                              await showOmniDateTimeRangePicker(
+                                  context: context);
+                          if (dates != null && (dates.isNotEmpty)) {
+                            setState(() {
+                              startDate = dates.first;
+                              toDate = dates.last;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(
+                            format.format(toDate),
+                            style: const TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
                         ),
                       ),
                       InkWell(
@@ -236,7 +259,7 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                             projectBloc.add(UpdateProfile(objToApi: {
                               "user": {
                                 "working_project_ids":
-                                    selectedProjects.map((e) => e?.id).toList(),
+                                    selectedProjects?.map((e) => e.id).toList(),
                                 "working_hours": {
                                   "start_time": format.format(startDate),
                                   "end_time": format.format(toDate)

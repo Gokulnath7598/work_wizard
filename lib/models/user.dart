@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:my_macos_app/models/projects.dart';
+
 class User {
   UserClass? user;
 
@@ -24,7 +26,7 @@ class UserClass {
   int? id;
   String? name;
   String? email;
-  List<WorkingProject>? workingProjects;
+  List<Project>? workingProjects;
   WorkingHours? workingHours;
 
   UserClass({
@@ -45,8 +47,8 @@ class UserClass {
         email: json["email"],
         workingProjects: json["working_projects"] == null
             ? []
-            : List<WorkingProject>.from(json["working_projects"]!
-                .map((x) => WorkingProject.fromMap(x))),
+            : List<Project>.from(
+                json["working_projects"]!.map((x) => Project.fromMap(x))),
         workingHours: json["working_hours"] == null
             ? null
             : WorkingHours.fromMap(json["working_hours"]),
@@ -88,27 +90,27 @@ class WorkingHours {
       };
 }
 
-class WorkingProject {
-  int? id;
-  String? name;
+// class WorkingProject {
+//   int? id;
+//   String? name;
 
-  WorkingProject({
-    this.id,
-    this.name,
-  });
+//   WorkingProject({
+//     this.id,
+//     this.name,
+//   });
 
-  factory WorkingProject.fromJson(String str) =>
-      WorkingProject.fromMap(json.decode(str));
+//   factory WorkingProject.fromJson(String str) =>
+//       WorkingProject.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
+//   String toJson() => json.encode(toMap());
 
-  factory WorkingProject.fromMap(Map<String, dynamic> json) => WorkingProject(
-        id: json["id"],
-        name: json["project_name"],
-      );
+//   factory WorkingProject.fromMap(Map<String, dynamic> json) => WorkingProject(
+//         id: json["id"],
+//         name: json["project_name"],
+//       );
 
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "project_name": name,
-      };
-}
+//   Map<String, dynamic> toMap() => {
+//         "id": id,
+//         "project_name": name,
+//       };
+// }

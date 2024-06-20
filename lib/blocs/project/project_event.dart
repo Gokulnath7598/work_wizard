@@ -4,6 +4,8 @@ abstract class ProjectEvent {}
 
 class GetProfile extends ProjectEvent {}
 
+class GetProjects extends ProjectEvent {}
+
 class UpdateProfile extends ProjectEvent {
   UpdateProfile({this.objToApi});
   Map<String, dynamic>? objToApi;

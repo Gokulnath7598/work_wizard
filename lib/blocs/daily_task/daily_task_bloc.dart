@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:my_macos_app/api_repository/daily_task_service.dart';
 import 'package:my_macos_app/base_bloc/base_bloc.dart';
 import 'package:my_macos_app/models/daily_task.dart';
+import 'package:my_macos_app/models/projects.dart';
 
 part 'daily_task_event.dart';
 part 'daily_task_state.dart';

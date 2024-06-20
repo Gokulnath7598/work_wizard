@@ -1,4 +1,5 @@
 import 'package:my_macos_app/models/models.dart';
+import 'package:my_macos_app/models/projects.dart';
 
 class AppUser {
   AppUser({
@@ -13,7 +14,7 @@ class AppUser {
       email: json['email'] as String?,
       id: json['id'] as int?,
       name: json['name'] as String?,
-      workingProjects: ProjectsList.fromJson(
+      workingProjects: Projects.fromMap(
         json,
       ),
     );
@@ -35,5 +36,5 @@ class AppUser {
   final int? id;
   final String? name;
   final String? email;
-  final ProjectsList? workingProjects;
+  final Projects? workingProjects;
 }

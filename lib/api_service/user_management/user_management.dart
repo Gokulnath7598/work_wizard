@@ -10,9 +10,10 @@ class UserManagement {
     required Token token,
   }) async {
     final Response<Map<String, dynamic>?> response =
-        await ApiService.dioClient.post<Map<String, dynamic>?>(
-      '/user_management/auth',
-      data: token.toJson(),
+        await ApiService.dioClient
+        .get<Map<String, dynamic>?>('/user/users',
+            options: Options(
+                headers: {'Authorization': 'Bearer ${token.accessToken}'})
     );
 
     return {
