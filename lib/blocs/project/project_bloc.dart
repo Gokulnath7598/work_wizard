@@ -18,8 +18,11 @@ class ProjectBloc extends BaseBloc<ProjectEvent, ProjectState> {
       GetProfile event, Emitter<ProjectState> emit) async {
     emit(ProjectLoading());
     final User? user = await ProjectService.getUserDetails();
+    final Projects? projects = await ProjectService.getProjects();
 
-    emit(projectAppState..user = user);
+    emit(projectAppState
+      ..user = user
+      ..projects = projects);
   }
 
   FutureOr<void> _updateProfile(
@@ -28,16 +31,17 @@ class ProjectBloc extends BaseBloc<ProjectEvent, ProjectState> {
 
     final User? user =
         await ProjectService.updateUser(objToApi: event.objToApi);
+    
 
     emit(projectAppState..user = user);
   }
 
   FutureOr<void> _getProjects(
       GetProjects event, Emitter<ProjectState> emit) async {
-    emit(ProjectLoading());
-    final Projects? projects = await ProjectService.getProjects();
+    // emit(ProjectLoading());
+    // final Projects? projects = await ProjectService.getProjects();
 
-    emit(projectAppState..projects = projects);
+    // emit(projectAppState..projects = projects);
   }
 
   @override

@@ -25,19 +25,28 @@ class ConfigureDrawer extends StatefulWidget {
 
 class _ConfigureDrawerState extends State<ConfigureDrawer> {
   List<Project>? selectedProjects = <Project>[];
-  DateTime startDate = DateTime.now();
-  DateTime toDate = DateTime.now();
+  late DateTime startDate;
+  late DateTime toDate;
   DateFormat format = DateFormat.jm();
 
   late ProjectBloc projectBloc;
 
   @override
   void initState() {
+    // WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
     projectBloc = context.read<ProjectBloc>();
     projectBloc.add(GetProfile());
-    projectBloc.add(GetProjects());
-
+    // projectBloc.add(GetProjects());
     selectedProjects = projectBloc.projectAppState.user?.user?.workingProjects;
+    startDate = DateTime.parse(
+        projectBloc.projectAppState.user?.user?.workingHours?.startTime ??
+            DateTime.now().toString());
+    toDate = DateTime.parse(
+        projectBloc.projectAppState.user?.user?.workingHours?.endTime ??
+            DateTime.now().toString());
+    // _appBloc.stream.listen((AppState state) =>
+    //     (mounted ? onAppBlocChange(context: context, state: state) : null));
+    // });
 
     super.initState();
   }
@@ -82,7 +91,6 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w500,
-                            // fontStyle: FontStyle.italic,
                             color: Colors.black),
                       ),
                       const Text(
@@ -90,7 +98,6 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            // fontStyle: FontStyle.italic,
                             color: Colors.black),
                       ),
                       Container(
@@ -109,7 +116,9 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                             dropdownButtonColor: Colors.white,
                             onChanged: (newValue) {
                               setState(() {
-                                if (selectedProjects?.contains(newValue) ??
+                                if (selectedProjects
+                                        ?.where((e) => e.id == newValue?.id)
+                                        .isNotEmpty ??
                                     false) {
                                   selectedProjects?.remove(newValue);
                                 } else {
@@ -135,7 +144,9 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                             children: [
                                               Text(value.name ?? ''),
                                               (selectedProjects
-                                                          ?.contains(value) ??
+                                                          ?.where((e) =>
+                                                              e.id == value.id)
+                                                          .isNotEmpty ??
                                                       false)
                                                   ? const Icon(
                                                       Icons.check_circle,
@@ -151,11 +162,11 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                       ),
                       Wrap(
                         children: [
-                          ...?projectBloc
-                              .projectAppState.user?.user?.workingProjects
+                          ...?selectedProjects
                               ?.map((e) => Container(
                                     padding: const EdgeInsets.all(8),
-                                    margin: const EdgeInsets.only(right: 10),
+                                margin:
+                                    const EdgeInsets.only(right: 10, top: 10),
                                     decoration: BoxDecoration(
                                         color: AppColors.blackColor,
                                         borderRadius:
@@ -256,13 +267,19 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                       InkWell(
                         onTap: () {
                           if (state is! ProjectLoading) {
+                            // print(
+                            //     '////////////////////////date ${startDate.toUtc()}');
                             projectBloc.add(UpdateProfile(objToApi: {
                               "user": {
-                                "working_project_ids":
-                                    selectedProjects?.map((e) => e.id).toList(),
+                                "working_project_ids": selectedProjects == null
+                                    ? []
+                                    : (selectedProjects
+                                            ?.map((e) => e.id)
+                                            .toList() ??
+                                        []),
                                 "working_hours": {
-                                  "start_time": format.format(startDate),
-                                  "end_time": format.format(toDate)
+                                  "start_time": startDate.toLocal().toString(),
+                                  "end_time": toDate.toLocal().toString()
                                 }
                               }
                             }));
