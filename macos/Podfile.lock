@@ -35,31 +35,7 @@ PODS:
   - flutter_web_auth_2 (1.1.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.13.3):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Environment (7.13.3):
-    - GoogleUtilities/Privacy
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.13.3):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Network (7.13.3):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Privacy
-    - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.13.3)":
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Privacy (7.13.3)
-  - GoogleUtilities/Reachability (7.13.3):
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
-  - GTMSessionFetcher/Core (3.4.1)
-  - macos_ui (0.1.0):
-    - FlutterMacOS
+  - lottie-ios (4.4.3)
   - macos_window_utils (1.0.0):
     - FlutterMacOS
   - PromisesObjC (2.4.0)
@@ -79,22 +55,12 @@ DEPENDENCIES:
   - flutter_secure_storage_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos`)
   - flutter_web_auth_2 (from `Flutter/ephemeral/.symlinks/plugins/flutter_web_auth_2/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
-  - macos_ui (from `Flutter/ephemeral/.symlinks/plugins/macos_ui/macos`)
+  - lottie-ios
   - macos_window_utils (from `Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos`)
-  - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
-  - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
-  - window_to_front (from `Flutter/ephemeral/.symlinks/plugins/window_to_front/macos`)
 
 SPEC REPOS:
   trunk:
-    - Firebase
-    - FirebaseAppCheckInterop
-    - FirebaseAuth
-    - FirebaseCore
-    - FirebaseCoreInternal
-    - GoogleUtilities
-    - GTMSessionFetcher
-    - PromisesObjC
+    - lottie-ios
 
 EXTERNAL SOURCES:
   app_links:
@@ -135,15 +101,13 @@ SPEC CHECKSUMS:
   flutter_secure_storage_macos: 59459653abe1adb92abbc8ea747d79f8d19866c9
   flutter_web_auth_2: 6695649132b6c71ea17700703761c0d18fdb8cf6
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
-  GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
-  macos_ui: 6229a8922cd97bafb7d9636c8eb8dfb0744183ca
+  lottie-ios: fcb5e73e17ba4c983140b7d21095c834b3087418
   macos_window_utils: 933f91f64805e2eb91a5bd057cf97cd097276663
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   url_launcher_macos: 5f437abeda8c85500ceb03f5c1938a8c5a705399
   window_to_front: 4cdc24ddd8461ad1a55fa06286d6a79d8b29e8d8
 
-PODFILE CHECKSUM: f0c21717cb7ee9112f915044c74bfceb5b12e02a
+PODFILE CHECKSUM: 8155cc6dad428c6bed96235225c0aee7f8fada93
 
 COCOAPODS: 1.15.2

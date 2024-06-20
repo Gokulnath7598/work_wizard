@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_macos_app/blocs/app_bloc/app_bloc.dart';
 import 'package:my_macos_app/constants/app_assets.dart';
 import 'package:my_macos_app/constants/app_colors.dart';
+import 'package:my_macos_app/main.dart';
+import 'package:my_macos_app/preferences_client/preferences_client.dart';
 import 'package:my_macos_app/views/home/configure_drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +17,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isExpanded = true;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    OverlayController.platform.invokeMethod('showOverlay', {
+      'working_projects': PreferencesClient.getUser()?.workingProjects,
+    });
+    OverlayController.startOverlayTimer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
