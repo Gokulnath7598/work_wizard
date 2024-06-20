@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_macos_app/api_service/api_service.dart';
 import 'package:my_macos_app/base_bloc/base_bloc.dart';
 import 'package:my_macos_app/blocs/app_bloc/app_bloc.dart';
+import 'package:my_macos_app/blocs/timeline/timeline_bloc.dart';
 import 'package:my_macos_app/core/app_router/app_router.dart';
 import 'package:my_macos_app/preferences_client/preferences_client.dart';
 import 'package:my_macos_app/views/auth/login_page.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider<TimeLineBloc>(create: (BuildContext context) => TimeLineBloc()),
         BlocProvider(
           create: (context) => AppBloc(),
         ),

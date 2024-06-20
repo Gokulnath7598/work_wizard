@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_macos_app/blocs/daily_task/daily_task_bloc.dart';
 import 'package:my_macos_app/blocs/project/project_bloc.dart';
+import 'package:my_macos_app/blocs/timeline/timeline_bloc.dart';
 import 'package:my_macos_app/core/constants/app_assets.dart';
 import 'package:my_macos_app/core/theme/app_colors.dart';
 import 'package:my_macos_app/models/daily_task.dart';
 import 'package:my_macos_app/views/home/configure_drawer.dart';
 import 'package:timelines/timelines.dart';
+
+import '../../models/time_line.dart';
 
 class HomePage extends StatefulWidget {
   static const String routePath = '/home';
@@ -111,81 +114,106 @@ class TimeLineWidget extends StatefulWidget {
 
 class _TimeLineWidgetState extends State<TimeLineWidget> {
   DateTime focusDate = DateTime.now();
+  late TimeLineBloc timeLineBloc;
+  List<TimeLine>? timeLineList = [];
+  @override
+  void didChangeDependencies() {
+    timeLineBloc = BlocProvider.of<TimeLineBloc>(context);
+    super.didChangeDependencies();
+  }
+  @override
+  void initState() {
+    timeLineBloc = context.read<TimeLineBloc>();
+    timeLineBloc.add(GetTimeLine());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return Container(
-      margin: const EdgeInsets.all(20),
-      height: 800,
-      width: size.width * 0.5,
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          EasyInfiniteDateTimeLine(
-            controller: EasyInfiniteDateTimelineController(),
-            firstDate: DateTime(2024),
-            focusDate: focusDate,
-            lastDate: DateTime(2024, 12, 31),
-            onDateChange: (selectedDate) {
-              setState(() {
-                focusDate = selectedDate;
-              });
-            },
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-          Timeline.tileBuilder(
-            clipBehavior: Clip.none,
+    return BlocBuilder<TimeLineBloc, TimeLineState>(
+        builder: (BuildContext context, TimeLineState timeLineState) {
+        return Container(
+          margin: const EdgeInsets.all(20),
+          height: 800,
+          width: size.width * 0.5,
+          child: ListView(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            builder: TimelineTileBuilder.fromStyle(
-              addRepaintBoundaries: false,
-              contentsAlign: ContentsAlign.basic,
-              indicatorStyle: IndicatorStyle.outlined,
-              contentsBuilder: (context, index) => const Padding(
-                padding: EdgeInsets.all(24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('Lorem ipsum dolor sit amet'),
-                    SizedBox(
-                      width: 50,
+            children: [
+              EasyInfiniteDateTimeLine(
+                controller: EasyInfiniteDateTimelineController(),
+                firstDate: DateTime(2024),
+                focusDate: focusDate,
+                lastDate: DateTime(2024, 12, 31),
+                onDateChange: (selectedDate) {
+                  setState(() {
+                    focusDate = selectedDate;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+              Timeline.tileBuilder(
+                clipBehavior: Clip.none,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                builder: TimelineTileBuilder.fromStyle(
+                  addRepaintBoundaries: false,
+                  contentsAlign: ContentsAlign.basic,
+                  indicatorStyle: IndicatorStyle.outlined,
+                  contentsBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.all(24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(timeLineBloc.getTimeLineSuccess.timeLine!.first.taskDescription.toString()),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('3 Hrs'),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text('Actual'),
+                          ],
+                        ),
+                      ],
                     ),
-                    Column(
+                  ),
+                  oppositeContentsBuilder: (context, index) => const Padding(
+                    padding: EdgeInsets.all(24.0),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('3 Hrs'),
+                        Text('11:00'),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Actual'),
+                        Text('Rise'),
                       ],
                     ),
-                  ],
+                  ),
+                  itemCount: 10,
                 ),
-              ),
-              oppositeContentsBuilder: (context, index) => const Padding(
-                padding: EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('11:00'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text('Rise'),
-                  ],
-                ),
-              ),
-              itemCount: 10,
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      }
     );
+  }
+  void onTimeLineBlocChange(
+      {required BuildContext context, required TimeLineState state}) {
+    switch (state.runtimeType) {
+      case const (GetTimeLineSuccess):
+        timeLineList =
+            (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
+    }
   }
 }
 

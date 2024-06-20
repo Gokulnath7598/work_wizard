@@ -6,4 +6,5 @@ class AppAssets {
   static const String configureText = 'assets/configureText.png';
   static const String expandIcon = 'assets/expand_icon.png';
   static const String shrinkIcon = 'assets/shrink_icon.png';
+  static const String timelineIcon = 'assets/timeline.png';
 }
