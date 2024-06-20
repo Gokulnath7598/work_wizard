@@ -11,6 +11,7 @@ import 'package:my_macos_app/views/home/configure_drawer.dart';
 import 'package:timelines/timelines.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routePath = '/home';
   const HomePage({super.key});
   @override
   State<HomePage> createState() => _HomePageState();

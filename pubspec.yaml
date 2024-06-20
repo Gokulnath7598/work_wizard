@@ -44,15 +44,17 @@ dependencies:
   omni_datetime_picker: ^2.0.0
   easy_date_timeline: ^1.1.3
   timelines: ^0.1.0
-  dio: ^5.3.4
   flutter_bloc: ^8.1.3
   bloc: ^8.1.2
   pretty_dio_logger: ^1.3.1
-  shared_preferences: ^2.2.2
-  rq_network_flutter:
-    git:
-      url: https://gitlab.com/syedrahim/mobile_api_client.git
-      ref: v1.0.5
+  dio: ^5.4.3+1
+  shared_preferences: ^2.2.3
+  go_router: ^14.2.0
+  oauth2: ^2.0.2
+  url_launcher: ^6.3.0
+  app_links: ^6.1.1
+  oauth2_client: ^3.2.2
+  flutter_web_auth_2: ^2.2.1
 
 dev_dependencies:
   flutter_test:
