@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:my_macos_app/blocs/project/project_bloc.dart';
 import 'package:my_macos_app/core/constants/app_assets.dart';
@@ -31,22 +32,50 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
 
   late ProjectBloc projectBloc;
 
+  Future<void> onAppBlocChange(
+      {required BuildContext context, required ProjectState state}) async {
+    if (state is UpdateProfileSuccess) {
+      widget._scaffoldKey.currentState?.closeEndDrawer();
+    } else if (state is ProjectAppState) {
+      selectedProjects = context
+              .read<ProjectBloc>()
+              .projectAppState
+              .user
+              ?.user
+              ?.workingProjects ??
+          [];
+      startDate = DateTime.parse(context
+              .read<ProjectBloc>()
+              .projectAppState
+              .user
+              ?.user
+              ?.workingHours
+              ?.startTime ??
+          DateTime.now().toString());
+      toDate = DateTime.parse(context
+              .read<ProjectBloc>()
+              .projectAppState
+              .user
+              ?.user
+              ?.workingHours
+              ?.endTime ??
+          DateTime.now().toString());
+    }
+  }
+
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
     projectBloc = context.read<ProjectBloc>();
     projectBloc.add(GetProfile());
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      projectBloc.stream.listen((ProjectState state) =>
+          mounted ? onAppBlocChange(context: context, state: state) : null);
+    });
+
     // projectBloc.add(GetProjects());
-    selectedProjects = projectBloc.projectAppState.user?.user?.workingProjects;
-    startDate = DateTime.parse(
-        projectBloc.projectAppState.user?.user?.workingHours?.startTime ??
-            DateTime.now().toString());
-    toDate = DateTime.parse(
-        projectBloc.projectAppState.user?.user?.workingHours?.endTime ??
-            DateTime.now().toString());
+
     // _appBloc.stream.listen((AppState state) =>
     //     (mounted ? onAppBlocChange(context: context, state: state) : null));
-    // });
 
     super.initState();
   }
@@ -115,6 +144,8 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                 color: Colors.black12, width: 1),
                             dropdownButtonColor: Colors.white,
                             onChanged: (newValue) {
+                              // print(
+                              // '////////////////////////${selectedProjects?.where((e) => e.id == newValue?.id).isNotEmpty}');
                               setState(() {
                                 if (selectedProjects
                                         ?.where((e) => e.id == newValue?.id)
@@ -162,21 +193,18 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                       ),
                       Wrap(
                         children: [
-                          ...?selectedProjects
-                              ?.map((e) => Container(
-                                    padding: const EdgeInsets.all(8),
+                          ...?selectedProjects?.map((e) => Container(
+                                padding: const EdgeInsets.all(8),
                                 margin:
                                     const EdgeInsets.only(right: 10, top: 10),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.blackColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Text(
-                                      e.name ?? '',
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                  ))
+                                decoration: BoxDecoration(
+                                    color: AppColors.blackColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Text(
+                                  e.name ?? '',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ))
                         ],
                       ),
                       const SizedBox(
@@ -208,8 +236,21 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                   context: context);
                           if (dates != null && (dates.isNotEmpty)) {
                             setState(() {
-                              startDate = dates.first;
-                              toDate = dates.last;
+                              context
+                                      .read<ProjectBloc>()
+                                      .projectAppState
+                                      .user
+                                      ?.user
+                                      ?.workingHours
+                                      ?.startTime =
+                                  dates.first.toLocal().toString();
+                              context
+                                  .read<ProjectBloc>()
+                                  .projectAppState
+                                  .user
+                                  ?.user
+                                  ?.workingHours
+                                  ?.endTime = dates.last.toLocal().toString();
                             });
                           }
                         },
@@ -220,7 +261,14 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            format.format(startDate),
+                            format.format(DateTime.parse(context
+                                    .read<ProjectBloc>()
+                                    .projectAppState
+                                    .user
+                                    ?.user
+                                    ?.workingHours
+                                    ?.startTime ??
+                                DateTime.now().toString())),
                             style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w500,
@@ -244,8 +292,21 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                   context: context);
                           if (dates != null && (dates.isNotEmpty)) {
                             setState(() {
-                              startDate = dates.first;
-                              toDate = dates.last;
+                              context
+                                      .read<ProjectBloc>()
+                                      .projectAppState
+                                      .user
+                                      ?.user
+                                      ?.workingHours
+                                      ?.startTime =
+                                  dates.first.toLocal().toString();
+                              context
+                                  .read<ProjectBloc>()
+                                  .projectAppState
+                                  .user
+                                  ?.user
+                                  ?.workingHours
+                                  ?.endTime = dates.last.toLocal().toString();
                             });
                           }
                         },
@@ -256,7 +317,14 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            format.format(toDate),
+                            format.format(DateTime.parse(context
+                                    .read<ProjectBloc>()
+                                    .projectAppState
+                                    .user
+                                    ?.user
+                                    ?.workingHours
+                                    ?.endTime ??
+                                DateTime.now().toString())),
                             style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w500,
@@ -278,8 +346,20 @@ class _ConfigureDrawerState extends State<ConfigureDrawer> {
                                             .toList() ??
                                         []),
                                 "working_hours": {
-                                  "start_time": startDate.toLocal().toString(),
-                                  "end_time": toDate.toLocal().toString()
+                                  "start_time": context
+                                      .read<ProjectBloc>()
+                                      .projectAppState
+                                      .user
+                                      ?.user
+                                      ?.workingHours
+                                      ?.startTime,
+                                  "end_time": context
+                                      .read<ProjectBloc>()
+                                      .projectAppState
+                                      .user
+                                      ?.user
+                                      ?.workingHours
+                                      ?.endTime
                                 }
                               }
                             }));

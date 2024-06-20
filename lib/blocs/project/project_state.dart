@@ -13,3 +13,4 @@ class ProjectInitial extends ProjectState {}
 class ProjectLoading extends ProjectState {}
 
 class ProjectError extends ProjectState {}
+class UpdateProfileSuccess extends ProjectState {}
