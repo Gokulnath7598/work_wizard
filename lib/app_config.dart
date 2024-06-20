@@ -19,10 +19,10 @@ AppConfig stagingConfig = AppConfig(
     flavor: Flavor.staging,
     appLabel: 'Fintuit [STG]',
     baseUrl:
-        'http://ec2-3-7-3-118.ap-south-1.compute.amazonaws.com:3000/api/v1');
+        'https://rnmcp-202-129-198-175.a.free.pinggy.link/api/v1');
 
 AppConfig stubConfig = AppConfig(
     flavor: Flavor.staging,
     appLabel: 'Fintuit [STG]',
     baseUrl:
-        'https://a8683f30-d380-4f57-bc8b-6d890babb8ae.mock.pstmn.io/api/v1');
+        'https://rnmcp-202-129-198-175.a.free.pinggy.link/api/v1');

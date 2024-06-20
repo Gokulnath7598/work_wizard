@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
       darkTheme: MacosThemeData.dark(),
       themeMode: ThemeMode.system,
       home: const LoginPage(),
-     
     );
   }
 }

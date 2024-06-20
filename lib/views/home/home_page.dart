@@ -1,7 +1,11 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_macos_app/blocs/daily_task/daily_task_bloc.dart';
 import 'package:my_macos_app/core/constants/app_assets.dart';
 import 'package:my_macos_app/core/theme/app_colors.dart';
+import 'package:my_macos_app/models/daily_task.dart';
 import 'package:my_macos_app/views/home/configure_drawer.dart';
 import 'package:timelines/timelines.dart';
 
@@ -57,7 +61,12 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.scaleDown)),
         child: Row(
           children: [
-            showTimeline ? const TimeLineWidget() : AddTaskWidget(size: size),
+            showTimeline
+                ? const TimeLineWidget()
+                : BlocProvider(
+                    create: (context) => DailyTaskBloc(),
+                    child: AddTaskWidget(size: size),
+                  ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +184,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   }
 }
 
-class AddTaskWidget extends StatelessWidget {
+class AddTaskWidget extends StatefulWidget {
   const AddTaskWidget({
     super.key,
     required this.size,
@@ -184,9 +193,25 @@ class AddTaskWidget extends StatelessWidget {
   final Size size;
 
   @override
+  State<AddTaskWidget> createState() => _AddTaskWidgetState();
+}
+
+class _AddTaskWidgetState extends State<AddTaskWidget> {
+  late DailyTaskBloc dailyTaskBloc;
+  TextEditingController _taskNameController = TextEditingController();
+
+  @override
+  void initState() {
+    dailyTaskBloc = context.read<DailyTaskBloc>();
+    dailyTaskBloc.add(GetDailyTasks());
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size.width * 0.5,
+      width: widget.size.width * 0.5,
       child: ListView(
         padding: const EdgeInsets.symmetric(
           vertical: 50,
@@ -239,6 +264,7 @@ class AddTaskWidget extends StatelessWidget {
             height: 20,
           ),
           TextFormField(
+            controller: _taskNameController,
             decoration: InputDecoration(
               hintText: "Today's Task",
               hintStyle: const TextStyle(color: Colors.grey),
@@ -254,19 +280,25 @@ class AddTaskWidget extends StatelessWidget {
             width: 20,
             height: 20,
           ),
-          const Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            alignment: WrapAlignment.start,
-            children: [
-              TaskWidget(),
-              TaskWidget(),
-              TaskWidget(),
-              TaskWidget(),
-              TaskWidget(),
-              TaskWidget(),
-              TaskWidget(),
-            ],
+          BlocBuilder<DailyTaskBloc, DailyTaskState>(
+            builder: (context, state) {
+              return Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                alignment: WrapAlignment.start,
+                children: [
+                  ...?dailyTaskBloc.dailyTaskAppState.dailyTasks?.dailyTasks
+                      ?.map((e) => TaskWidget(
+                            dailyTask: e,
+                          )),
+                  state is DailyTaskLoading
+                      ? const CupertinoActivityIndicator(
+                          color: AppColors.blueColor,
+                        )
+                      : Container()
+                ],
+              );
+            },
           ),
           const SizedBox(
             width: 20,
@@ -279,9 +311,13 @@ class AddTaskWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   color: AppColors.blueColor),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  dailyTaskBloc
+                      .add(AddDailyTask(name: _taskNameController.text));
+                  _taskNameController.clear();
+                },
                 child: const Text(
-                  'I AM READY!',
+                  'Add Task',
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
               )),
@@ -292,30 +328,43 @@ class AddTaskWidget extends StatelessWidget {
 }
 
 class TaskWidget extends StatelessWidget {
-  const TaskWidget({
-    super.key,
-  });
+  const TaskWidget({super.key, this.dailyTask});
+
+  final DailyTask? dailyTask;
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: AppColors.lightBlueColor),
-        child: const Center(
-            child: Row(
-          children: [
-            Text('Hello world world'),
-            Icon(
-              Icons.close,
-              size: 24,
-              color: AppColors.blackColor,
-            )
-          ],
-        )),
-      ),
+    return BlocBuilder<DailyTaskBloc, DailyTaskState>(
+      builder: (context, state) {
+        return FittedBox(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: AppColors.lightBlueColor),
+            child: Center(
+                child: Row(
+              children: [
+                Text(dailyTask?.taskDesc ?? ''),
+                InkWell(
+                  onTap: () {
+                    if (state is! DailyTaskDeleteLoading) {
+                      context
+                          .read<DailyTaskBloc>()
+                          .add(DeleteDailyTask(id: dailyTask?.id));
+                    }
+                  },
+                  child: const Icon(
+                    Icons.close,
+                    size: 24,
+                    color: AppColors.blackColor,
+                  ),
+                )
+              ],
+            )),
+          ),
+        );
+      },
     );
   }
 }
