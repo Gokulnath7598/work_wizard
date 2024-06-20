@@ -52,6 +52,8 @@ dependencies:
   oauth2: ^2.0.2
   url_launcher: ^6.3.0
   app_links: ^6.1.1
+  oauth2_client: ^3.2.2
+  flutter_web_auth_2: ^2.2.1
 
 dev_dependencies:
   flutter_test:

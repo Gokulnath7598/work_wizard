@@ -15,7 +15,10 @@ class AppRouter {
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: initialRoute,
-    routes: [AuthRoutes.login, HomeRoutes.home],
+    routes: [
+      AuthRoutes.login,
+      HomeRoutes.home,
+    ],
   );
 
   static String get currentPath {

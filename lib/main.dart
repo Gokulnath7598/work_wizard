@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:my_macos_app/api_service/api_service.dart';
+import 'package:my_macos_app/blocs/app_bloc/app_bloc.dart';
 import 'package:my_macos_app/core/app_router/app_router.dart';
 import 'package:my_macos_app/core/base_bloc/base_bloc.dart';
 import 'package:my_macos_app/firebase_options.dart';
@@ -29,7 +30,14 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
 
   runApp(
-    const MyApp(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AppBloc(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 

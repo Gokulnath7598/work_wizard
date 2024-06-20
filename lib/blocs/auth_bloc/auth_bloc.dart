@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_macos_app/core/base_bloc/base_bloc.dart';
-import 'package:my_macos_app/core/oauth2_client/oauth2_client.dart';
 import 'package:my_macos_app/models/models.dart';
-import 'package:oauth2/oauth2.dart';
+import 'package:my_macos_app/preferences_client/preferences_client.dart';
+
+import '../../api_service/user_management/user_management.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -18,52 +19,31 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
   ) async {
     if (event is LoginUsingMicrosoft) {
       emit(LoginUsingMicrosoftLoading());
-      // // final OAuthProvider provider = OAuthProvider('microsoft.com');
-      // // provider.setCustomParameters(<String, String>{
-      // //   'tenant': 'cf77e474-cc9d-443d-9ae3-91c0c0121362',
-      // // });
+      final Map<String, dynamic>? response = await UserManagement.authenticate(
+        token: Token(
+          accessToken:
+              '''eyJhbGciOiJSUzI1NiIsImtpZCI6ImRmOGIxNTFiY2Q5MGQ1YjMwMjBlNTNhMzYyZTRiMzA3NTYzMzdhNjEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiWWF6aGluaSBNYWxhciBQYXJpIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3dvcm
+std2l6YXJkLWJmOTc5IiwiYXVkIjoid29yay13aXphcmQtYmY5NzkiLCJhdXRoX3RpbWUiOjE3MTg4NjcwNjQsInVzZXJfaWQiOiJvRnR2RjZlcUtsWkZwak1UTkd3N0JsTEI2TDgyIiwic3ViIjoib0Z0dkY2ZXFLbFpGcGpNVE5HdzdCbExCNkw4MiIsImlhdCI
+6MTcxODg2NzA2NCwiZXhwIjoxNzE4ODcwNjY0LCJlbWFpbCI6InlhemhpbmkubWFsYXJAcm9vdHF1b3RpZW50LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJtaWNyb3NvZnQuY29tIjpbImE1ZDIxMWQ2LWJj
+NTgtNDcwOS1iZmIzLTI4MWMwZWU4NzFkMCJdLCJlbWFpbCI6WyJ5YXpoaW5pLm1hbGFyQHJvb3RxdW90aWVudC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJtaWNyb3NvZnQuY29tIn19.aY6WNxH3TzTqW7fhKKB05eq6hAKD3Ig7abRtdIBSbh_QvCt1tog1
+nroA-vfQDjM0MAifP8XG64fNtKfYCYuV34eaxW0qcRfrqsVcUY95DQt_U9FqSfbOen5yW3s6RKYZxVbW1EChswJV5BHU8wqzfS8dLyFFGS_4tzHajbMlkMC-KZ0XuJdWU1wcWpwerCyIW01nprjnpamHBPHP-UdBemPBYteG-n0Odw4Jd0tBrdtcSQxKT_4U8gm-W
+lqtJ0xuRTZu3HSS5Ksi8Uc7YKlsxzWxKHd1zRpqtoUjUyj6x8bebMZAlS7z5mVPIdAGfu8Tjdu3uofilukcMNIoqFe9Rw''',
+        ),
+      );
 
-      // // final UserCredential credential =
-      // //     await FirebaseAuth.instance.signInWithProvider(provider);
-      // // await FirebaseAuth.instance.signInWithProvider(provider);
-      // // const MethodChannel channel = MethodChannel('com.employee.work_wizard');
+      final AppUser? user = response?['user'];
+      final Token? token = response?['token'];
 
-      // // final Map<String, dynamic>? response = await UserManagement.authenticate(
-      // //   token: Token(
-      // //     accessToken: credential.credential?.accessToken,
-      // //   ),
-      // // );
+      await PreferencesClient.saveToken(
+        token: token,
+      );
 
-      // // final AppUser? user = response?['user'];
-      // // final Token? token = response?['token'];
-
-      // const String secretVal = 'jnw8Q~b_PAkmqlyfkfoPvEMR~Y1RU7aN4CpcraIa';
-      // // const String secretId = '1a0f816a-ae0f-4343-8d04-b82f287c82a9';
-      // final OAuth2Client oAuth2Client = OAuth2Client(
-      //   clientId: 'a3340139-0bc6-44f8-96e6-03985e3761aa',
-      //   clientSecret: secretVal,
-      //   authorizationEndpoint: Uri.parse(
-      //     'https://login.microsoftonline.com/cf77e474-cc9d-443d-9ae3-91c0c0121362/oauth2/v2.0/authorize',
-      //   ),
-      //   tokenEndpoint: Uri.parse(
-      //     'https://login.microsoftonline.com/cf77e474-cc9d-443d-9ae3-91c0c0121362/oauth2/v2.0/token',
-      //   ),
-      //   redirectUri: Uri.parse(
-      //     'https://work-wizard-bf979.firebaseapp.com/__/auth/handler',
-      //   ),
-      // );
-
-      // print('Oauth start');
-      // final Client? client = await oAuth2Client.getOAuth2Client();
-      // print('Oauth end');
-      // print(client?.credentials.accessToken);
-
-      // emit(
-      //   LoginUsingMicrosoftSuccess(
-      //       // user: user,
-      //       // token: token,
-      //       ),
-      // );
+      emit(
+        LoginUsingMicrosoftSuccess(
+          user: user,
+          token: token,
+        ),
+      );
     }
   }
 

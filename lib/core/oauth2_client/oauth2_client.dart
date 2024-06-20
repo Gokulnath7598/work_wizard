@@ -25,16 +25,28 @@ class OAuth2Client {
       authorizationEndpoint,
       tokenEndpoint,
       secret: clientSecret,
-      getParameters: (contentType, body) {
-        return {
-          'response_mode': 'query',
-        };
-      },
     );
 
-    var authorizationUrl =
-        grant.getAuthorizationUrl(redirectUri, scopes: ['openid', 'email']);
-    print(authorizationUrl);
+    var authorizationUrl = grant.getAuthorizationUrl(
+      redirectUri,
+      scopes: ['openid', 'email'],
+    );
+
+    // return await oauth2.clientCredentialsGrant(
+    //   authorizationEndpoint,
+    //   clientId,
+    //   clientSecret,
+    //   scopes: [
+    //     'openid',
+    //     'email',
+    //   ],
+    //   getParameters: (contentType, body) {
+    //     return {
+    //       // 'Content-Type': 'application/json',
+    //     };
+    //   },
+    // );
+    // print(authorizationUrl);
 
     await _redirect(authorizationUrl);
 

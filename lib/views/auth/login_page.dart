@@ -8,6 +8,8 @@ import 'package:my_macos_app/constants/app_assets.dart';
 import 'package:my_macos_app/core/app_router/app_router.dart';
 import 'package:my_macos_app/views/home/home_page.dart';
 
+import '../../blocs/app_bloc/app_bloc.dart';
+
 class LoginPage extends StatefulWidget {
   static const routePath = '/auth/login';
   const LoginPage({super.key});
@@ -25,10 +27,21 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
-  void Function(BuildContext, AuthState) loginUsingMicrosoftListener =
-      (BuildContext context, AuthState state) {
+  void Function(BuildContext, AuthState) loginUsingMicrosoftListener = (
+    BuildContext context,
+    AuthState state,
+  ) {
     if (state is LoginUsingMicrosoftSuccess) {
-      AppRouter.navigatorKey.currentContext?.go(HomePage.routePath);
+      print(state.user?.name);
+      print(state.token?.accessToken);
+      context.read<AppBloc>().add(
+            SaveAppUser(
+              user: state.user,
+            ),
+          );
+      AppRouter.navigatorKey.currentContext?.go(
+        HomePage.routePath,
+      );
     }
   };
 
@@ -111,7 +124,9 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                   ),
                   child: authState is LoginUsingMicrosoftLoading
-                      ? const CupertinoActivityIndicator()
+                      ? const CupertinoActivityIndicator(
+                          color: Color(0xFF505050),
+                        )
                       : TextButton(
                           onPressed: () {
                             _authBloc.add(LoginUsingMicrosoft());
