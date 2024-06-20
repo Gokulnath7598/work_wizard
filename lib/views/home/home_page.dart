@@ -2,6 +2,8 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:my_macos_app/blocs/daily_task/daily_task_bloc.dart';
 import 'package:my_macos_app/blocs/project/project_bloc.dart';
 import 'package:my_macos_app/blocs/timeline/timeline_bloc.dart';
@@ -124,8 +126,12 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   @override
   void initState() {
     timeLineBloc = context.read<TimeLineBloc>();
-    timeLineBloc.add(GetTimeLine());
-    print(timeLineBloc.getTimeLineSuccess.timeLine);
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      timeLineBloc.add(GetTimeLine());
+      timeLineBloc.stream.listen((TimeLineState state) => (mounted
+          ? onTimeLineBlocChange(context: context, state: state)
+          : null));
+    });
     super.initState();
   }
 
@@ -139,8 +145,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
           margin: const EdgeInsets.all(20),
           height: 800,
           width: size.width * 0.5,
-          child: timeLineBloc.getTimeLineSuccess.timeLine != null || (timeLineBloc.getTimeLineSuccess.timeLine??[]).isEmpty  ?
-          ListView(
+          child: ListView(
             shrinkWrap: true,
             children: [
               EasyInfiniteDateTimeLine(
@@ -157,7 +162,11 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
               const SizedBox(
                 height: 100,
               ),
-              Timeline.tileBuilder(
+              timeLineList != null || (timeLineList??[]).isNotEmpty
+              ?
+              timeLineState is TimeLineLoading ?
+              Center(child: Lottie.asset('assets/json/time_loader_blue_500.json', height: 500))
+              : Timeline.tileBuilder(
                 clipBehavior: Clip.none,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -170,14 +179,15 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(timeLineBloc.getTimeLineSuccess.timeLine!.first.taskDescription.toString()),
+                        Text(timeLineList?[index].taskDescription.toString() ?? 'Sample'),
+                        // Text(''),
                         SizedBox(
                           width: 50,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('3 Hrs'),
+                            Text(timeLineList?[index].effort.toString() ?? '0.0'),
                             SizedBox(
                               height: 10,
                             ),
@@ -200,12 +210,12 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
                       ],
                     ),
                   ),
-                  itemCount: 10,
+                  itemCount: timeLineList?.length ?? 0,
                 ),
               )
+                  : Lottie.asset('assets/json/emptyState.json')
             ],
-          )
-          : SizedBox(width: 0, height: 0,),
+          ),
         );
       }
     );
@@ -214,8 +224,9 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
       {required BuildContext context, required TimeLineState state}) {
     switch (state.runtimeType) {
       case const (GetTimeLineSuccess):
-        timeLineList =
-            (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
+          timeLineList =
+              (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
+          print(timeLineList);
     }
   }
 }

@@ -26,7 +26,8 @@ class TimeLineBloc extends BaseBloc<TimeLineEvent, TimeLineState> {
     final List<TimeLine>? timeLine = await TimeLineService.getTimeLineTasks(queryParams: <String, dynamic>{
       'date': "20:06:2024",
     });
-
+print("bksdhblvkjas");
+print(timeLine);
     emit(getTimeLineSuccess..timeLine = timeLine);
   }
 
