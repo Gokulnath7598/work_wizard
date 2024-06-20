@@ -37,7 +37,6 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
       // // final AppUser? user = response?['user'];
       // // final Token? token = response?['token'];
 
-      // const String secretVal = 'jnw8Q~b_PAkmqlyfkfoPvEMR~Y1RU7aN4CpcraIa';
       // // const String secretId = '1a0f816a-ae0f-4343-8d04-b82f287c82a9';
       // final OAuth2Client oAuth2Client = OAuth2Client(
       //   clientId: 'a3340139-0bc6-44f8-96e6-03985e3761aa',
