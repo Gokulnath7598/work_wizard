@@ -1,0 +1,64 @@
+import 'package:flutter/widgets.dart';
+
+class FintuitIcons {
+  FintuitIcons._();
+
+  static const String _kFontFam = 'FintuitIcons';
+
+  static const IconData property_1_calender = IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData property_1_check_black = IconData(0xe801, fontFamily: _kFontFam);
+  static const IconData property_1_check_green = IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData property_1_chevron_left_black = IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData property_1_chevron_left_disabled = IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData property_1_chevron_right_black = IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData property_1_chevron_left_white = IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData property_1_chevron_right_disabled = IconData(0xe807, fontFamily: _kFontFam);
+  static const IconData property_1_chevron_right_white = IconData(0xe808, fontFamily: _kFontFam);
+  static const IconData add_fill = IconData(0xe809, fontFamily: _kFontFam);
+  static const IconData arrow_left = IconData(0xe80a, fontFamily: _kFontFam);
+  static const IconData arrow_right = IconData(0xe80b, fontFamily: _kFontFam);
+  static const IconData bankbalance = IconData(0xe80c, fontFamily: _kFontFam);
+  static const IconData bike = IconData(0xe80d, fontFamily: _kFontFam);
+  static const IconData car_1 = IconData(0xe80e, fontFamily: _kFontFam);
+  static const IconData car = IconData(0xe80f, fontFamily: _kFontFam);
+  static const IconData check = IconData(0xe810, fontFamily: _kFontFam);
+  static const IconData dropdown = IconData(0xe811, fontFamily: _kFontFam);
+  static const IconData gold = IconData(0xe812, fontFamily: _kFontFam);
+  static const IconData gold2 = IconData(0xe813, fontFamily: _kFontFam);
+  static const IconData hide = IconData(0xe814, fontFamily: _kFontFam);
+  static const IconData home_active = IconData(0xe815, fontFamily: _kFontFam);
+  static const IconData home = IconData(0xe816, fontFamily: _kFontFam);
+  static const IconData house = IconData(0xe817, fontFamily: _kFontFam);
+  static const IconData info = IconData(0xe818, fontFamily: _kFontFam);
+  static const IconData insurance_1 = IconData(0xe819, fontFamily: _kFontFam);
+  static const IconData insurance_active = IconData(0xe81a, fontFamily: _kFontFam);
+  static const IconData insurance = IconData(0xe81b, fontFamily: _kFontFam);
+  static const IconData investment_active = IconData(0xe81c, fontFamily: _kFontFam);
+  static const IconData investment = IconData(0xe81d, fontFamily: _kFontFam);
+  static const IconData life = IconData(0xe81e, fontFamily: _kFontFam);
+  static const IconData liquidcash = IconData(0xe81f, fontFamily: _kFontFam);
+  static const IconData loans = IconData(0xe820, fontFamily: _kFontFam);
+  static const IconData mf_1 = IconData(0xe821, fontFamily: _kFontFam);
+  static const IconData mf = IconData(0xe822, fontFamily: _kFontFam);
+  static const IconData mutualfunds = IconData(0xe823, fontFamily: _kFontFam);
+  static const IconData notification_line_1 = IconData(0xe824, fontFamily: _kFontFam);
+  static const IconData myfinance = IconData(0xe825, fontFamily: _kFontFam);
+  static const IconData myfinance_active = IconData(0xe826, fontFamily: _kFontFam);
+  static const IconData notification_line = IconData(0xe827, fontFamily: _kFontFam);
+  static const IconData personal = IconData(0xe828, fontFamily: _kFontFam);
+  static const IconData peer_to_peer = IconData(0xe829, fontFamily: _kFontFam);
+  static const IconData realestate = IconData(0xe82a, fontFamily: _kFontFam);
+  static const IconData rupee = IconData(0xe82b, fontFamily: _kFontFam);
+  static const IconData show = IconData(0xe82c, fontFamily: _kFontFam);
+  static const IconData silver = IconData(0xe82d, fontFamily: _kFontFam);
+  static const IconData silver2 = IconData(0xe82e, fontFamily: _kFontFam);
+  static const IconData sip = IconData(0xe82f, fontFamily: _kFontFam);
+  static const IconData taxsaving = IconData(0xe830, fontFamily: _kFontFam);
+  static const IconData term = IconData(0xe831, fontFamily: _kFontFam);
+  static const IconData success = IconData(0xe832, fontFamily: _kFontFam);
+  static const IconData viewall = IconData(0xe833, fontFamily: _kFontFam);
+  static const IconData credit_score = IconData(0xe834, fontFamily: _kFontFam);
+  static const IconData fi_9838365 = IconData(0xe835, fontFamily: _kFontFam);
+  static const IconData radio_active = IconData(0xe853, fontFamily: _kFontFam);
+  static const IconData radio_inactive = IconData(0xe854, fontFamily: _kFontFam);
+}
