@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_macos_app/blocs/daily_task/daily_task_bloc.dart';
+import 'package:my_macos_app/blocs/project/project_bloc.dart';
 import 'package:my_macos_app/core/constants/app_assets.dart';
 import 'package:my_macos_app/core/theme/app_colors.dart';
 import 'package:my_macos_app/models/daily_task.dart';
@@ -49,7 +50,10 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Colors.white,
       key: _scaffoldKey,
-      endDrawer: ConfigureDrawer(size: size, scaffoldKey: _scaffoldKey),
+      endDrawer: BlocProvider(
+        create: (context) => ProjectBloc(),
+        child: ConfigureDrawer(size: size, scaffoldKey: _scaffoldKey),
+      ),
       body: Container(
         height: size.height,
         width: size.width,
