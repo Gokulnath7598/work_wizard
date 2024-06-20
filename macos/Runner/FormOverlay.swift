@@ -19,7 +19,7 @@ struct FormOverlay: View {
                 Rectangle().fill(Color.clear).frame(height: 36)
 
                 if #available(macOS 12.0, *) {
-                    DropdownFieldView(prompt: "Projects", dropDownOptions: projectsResult?.projects?.compactMap { $0.name } ?? [], isLoading: fetchAllProductsLoading, selectedItemIndex: $selectedProject).padding(.bottom, 12.0).padding(.horizontal, 40.0).task {
+                    DropdownFieldView(prompt: "Projects", dropDownOptions:  ["Aligner4D", "Akamai"], isLoading: fetchAllProductsLoading, selectedItemIndex: $selectedProject).padding(.bottom, 12.0).padding(.horizontal, 40.0).task {
                         do {
                             fetchAllProductsLoading = true
                             print("----> FETCH ALL PROJECTS LOADING")
@@ -87,7 +87,7 @@ struct FormOverlay: View {
                         if !taskDescription.isEmpty && !taskDurationInHrs.isEmpty {
                             do {
                                 let data = TaskData(
-                                    projectId: 1,
+                                    projectId: 2,
                                     description: taskDescription,
                                     status: isTaskCompleted ? "completed" : "in_progress",
                                     duration: taskDurationInHrs
@@ -102,6 +102,8 @@ struct FormOverlay: View {
                             } catch {
                                 print(error)
                                 createTaskLoading = false
+                                closeFormOverlay()
+                                closeOverlay()
                             }
                         }
                     }
