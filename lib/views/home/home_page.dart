@@ -2,6 +2,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:my_macos_app/blocs/daily_task/daily_task_bloc.dart';
 import 'package:my_macos_app/blocs/project/project_bloc.dart';
 import 'package:my_macos_app/blocs/timeline/timeline_bloc.dart';
@@ -132,12 +133,15 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     timeLineBloc = BlocProvider.of<TimeLineBloc>(context);
     super.didChangeDependencies();
   }
-
   @override
   void initState() {
     timeLineBloc = context.read<TimeLineBloc>();
-    timeLineBloc.add(GetTimeLine());
-    print(timeLineBloc.getTimeLineSuccess.timeLine);
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      timeLineBloc.add(GetTimeLine());
+      timeLineBloc.stream.listen((TimeLineState state) => (mounted
+          ? onTimeLineBlocChange(context: context, state: state)
+          : null));
+    });
     super.initState();
   }
 
@@ -147,97 +151,95 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
 
     return BlocBuilder<TimeLineBloc, TimeLineState>(
         builder: (BuildContext context, TimeLineState timeLineState) {
-      return Container(
-        margin: const EdgeInsets.all(20),
-        height: 800,
-        width: size.width * 0.5,
-        child: timeLineBloc.getTimeLineSuccess.timeLine != null ||
-                (timeLineBloc.getTimeLineSuccess.timeLine ?? []).isEmpty
-            ? ListView(
-                shrinkWrap: true,
-                children: [
-                  EasyInfiniteDateTimeLine(
-                    controller: EasyInfiniteDateTimelineController(),
-                    firstDate: DateTime(2024),
-                    focusDate: focusDate,
-                    lastDate: DateTime(2024, 12, 31),
-                    onDateChange: (selectedDate) {
-                      setState(() {
-                        focusDate = selectedDate;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  Timeline.tileBuilder(
-                    clipBehavior: Clip.none,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    builder: TimelineTileBuilder.fromStyle(
-                      addRepaintBoundaries: false,
-                      contentsAlign: ContentsAlign.basic,
-                      indicatorStyle: IndicatorStyle.outlined,
-                      contentsBuilder: (context, index) => Padding(
-                        padding: EdgeInsets.all(24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(timeLineBloc.getTimeLineSuccess.timeLine!.first
-                                .taskDescription
-                                .toString()),
-                            SizedBox(
-                              width: 50,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('3 Hrs'),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text('Actual'),
-                              ],
-                            ),
-                          ],
-                        ),
+          return Container(
+            margin: const EdgeInsets.all(20),
+            height: 800,
+            width: size.width * 0.5,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                EasyInfiniteDateTimeLine(
+                  controller: EasyInfiniteDateTimelineController(),
+                  firstDate: DateTime(2024),
+                  focusDate: focusDate,
+                  lastDate: DateTime(2024, 12, 31),
+                  onDateChange: (selectedDate) {
+                    setState(() {
+                      focusDate = selectedDate;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                timeLineList != null || (timeLineList??[]).isNotEmpty
+                    ?
+                timeLineState is TimeLineLoading ?
+                Center(child: Lottie.asset('assets/json/time_loader_blue_500.json', height: 500))
+                    : Timeline.tileBuilder(
+                  clipBehavior: Clip.none,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  builder: TimelineTileBuilder.fromStyle(
+                    addRepaintBoundaries: false,
+                    contentsAlign: ContentsAlign.basic,
+                    indicatorStyle: IndicatorStyle.outlined,
+                    contentsBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(timeLineList?[index].taskDescription.toString() ?? 'Sample'),
+                          // Text(''),
+                          SizedBox(
+                            width: 50,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(timeLineList?[index].effort.toString() ?? '0.0'),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text('Actual'),
+                            ],
+                          ),
+                        ],
                       ),
-                      oppositeContentsBuilder: (context, index) =>
-                          const Padding(
-                        padding: EdgeInsets.all(24.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('11:00'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('Rise'),
-                          ],
-                        ),
-                      ),
-                      itemCount: 10,
                     ),
-                  )
-                ],
-              )
-            : SizedBox(
-                width: 0,
-                height: 0,
-              ),
-      );
-    });
+                    oppositeContentsBuilder: (context, index) => const Padding(
+                      padding: EdgeInsets.all(24.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('11:00'),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Rise'),
+                        ],
+                      ),
+                    ),
+                    itemCount: timeLineList?.length ?? 0,
+                  ),
+                )
+                    : Lottie.asset('assets/json/emptyState.json')
+              ],
+            ),
+          );
+        }
+    );
   }
-
   void onTimeLineBlocChange(
       {required BuildContext context, required TimeLineState state}) {
     switch (state.runtimeType) {
       case const (GetTimeLineSuccess):
-        timeLineList = (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
+        timeLineList =
+            (state as GetTimeLineSuccess).timeLine ?? <TimeLine>[];
+        print(timeLineList);
     }
   }
 }
-
 class AddTaskWidget extends StatefulWidget {
   const AddTaskWidget({
     super.key,

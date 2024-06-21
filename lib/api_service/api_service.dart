@@ -12,7 +12,7 @@ class ApiService {
   static void initialize() {
     dioClient = Dio();
     dioClient.options.baseUrl =
-        "https://rnqwu-106-195-37-59.a.free.pinggy.link/api/v1";
+        "https://rnkkq-27-60-174-213.a.free.pinggy.link/api/v1";
     dioClient.interceptors
       ..add(
         PrettyDioLogger(
